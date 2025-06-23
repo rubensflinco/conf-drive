@@ -6,6 +6,13 @@ Este é um monorepo contendo os seguintes pacotes:
 - `@conf-drive/sdk`: SDK para consumo da API
 - `@conf-drive/docs`: Documentação do projeto usando Docusaurus
 
+
+--------------
+
+NodeJS v 24.1.0
+
+--------------
+
 ## Estrutura do Projeto
 
 ```
