@@ -1,0 +1,13 @@
+{
+  "name": "@conf-drive/server",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "concurrently \"npm run start:back\" \"npm run start:front\"",
+    "start:back": "cd back-end && npm run start",
+    "start:front": "cd front-end && npm run start"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "timestamp": 1703980800000,
+  "type": "folder",
+  "data": {
+    "tituloPagina": "ConfDrive SDK - Exemplo Folder",
+    "subtituloPagina": "Default Values para uma pasta específica",
+    "conteudoHtml": "<p>Este é um exemplo de default values do tipo <strong>folder</strong>.</p><p>Usado quando você só precisa de valores padrão para uma pasta específica.</p>",
+    "corTema": "#17a2b8",
+    "apiUrl": "https://api.exemplo.com",
+    "versao": "1.0.0",
+    "configuracoes": {
+      "habilitarDebug": false,
+      "timeout": 5000,
+      "retryAttempts": 3
+    }
+  }
+} 

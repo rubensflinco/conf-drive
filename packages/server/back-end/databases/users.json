@@ -1,0 +1,32 @@
+{
+    "users": {
+        "admin-1750526396706": {
+            "name": "Administrador",
+            "email": "admin@confdrive.com",
+            "password": "jd2EPFXQyxI+I4HzI65cNqLpf0na5sJd/4MbcRLrvVXodrtthnwV88JZBIA/IqqrytSF7X4AwfIe3CB5ezgBBstomgKENboG8ua+F7f2esPqxVakjjUzcO6m4HgsXaqpPc0LE8CuRf2jcLnNTZSobooLqNLC1aR4yX3ml+bE49k0",
+            "role": "admin",
+            "projects": [
+                "1750221729554",
+                "1750542683428",
+                "1750609423361"
+            ],
+            "createdAt": "2025-06-21T17:19:56.706Z",
+            "id": "admin-1750526396706"
+        },
+        "1750526508948": {
+            "name": "Rubens Flinco",
+            "email": "rubens.flinco@outlook.com.br",
+            "password": "lXdIsi4KJxrtUVqOV6tcFHqqF7y8dXtxb3PverA5v4hYcRM9bjy5voQnLp/Uhk5W71f64qB/7GbkVSTM1YUUiJsT0/RYOTJWH1e+HhIjDQaTd3WGz96SHuIQRPVEhJttzcg2LZEsBclVdVU9Hri9Zn5EI1oRHfoxVzkuqtu1rRmH",
+            "role": "user",
+            "projects": [
+                "1750453838242",
+                "1750542683428"
+            ],
+            "createdAt": "2025-06-21T17:21:48.948Z"
+        }
+    },
+    "users_by_email": {
+        "admin@confdrive.com": "admin-1750526396706",
+        "rubens.flinco@outlook.com.br": "1750526508948"
+    }
+}

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<div class="container-fluid">
+  <!-- Header -->
+  <header class="bg-primary text-white py-4 mb-4">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h1 class="mb-0">{{ config.Inicio?.tituloPagina || 'Carregando...' }}</h1>
+          <p class="mb-0 mt-2">{{ config.Inicio?.subtituloPagina || '' }}</p>
+        </div>
+        <div class="col-md-4 text-end">
+          <span class="badge fs-6" [ngClass]="'bg-' + getStatusClass()">
+            {{ getStatusText() }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Loading Spinner -->
+    <div *ngIf="isLoading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Carregando...</span>
+      </div>
+      <p class="mt-3">Carregando configurações do ConfDrive...</p>
+    </div>
+
+    <!-- Error Alert -->
+    <div *ngIf="error && !isLoading" class="alert alert-warning d-flex align-items-center mb-4">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      <div>
+        <strong>Aviso:</strong> {{ error }}
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div *ngIf="!isLoading && config.Inicio?.tituloPagina" class="row">
+      <!-- Content Column -->
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-body">
+            <div [innerHTML]="config.Inicio?.conteudoHtml || '<p>Conteúdo não disponível</p>'"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls Column -->
+      <div class="col-lg-4">
+        <!-- Controles -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <h5 class="card-title mb-0">
+              <i class="bi bi-gear-fill me-2"></i>
+              Controles
+            </h5>
+          </div>
+          <div class="card-body">
+            <div class="d-grid gap-2">
+              <button 
+                class="btn btn-outline-primary" 
+                (click)="recarregar()"
+                [disabled]="isLoading">
+                <i class="bi bi-arrow-clockwise me-2"></i>
+                Recarregar
+              </button>
+
+              <button 
+                class="btn btn-outline-warning" 
+                (click)="invalidarCache()"
+                [disabled]="isLoading">
+                <i class="bi bi-trash me-2"></i>
+                Limpar Cache
+              </button>
+
+              <button 
+                class="btn btn-outline-success" 
+                (click)="forcarValidacao()"
+                [disabled]="isLoading">
+                <i class="bi bi-arrow-repeat me-2"></i>
+                Validar Cache
+              </button>
+
+              <button 
+                class="btn btn-outline-info" 
+                (click)="toggleDebug()">
+                <i class="bi bi-bug me-2"></i>
+                {{ mostrarDebug ? 'Ocultar' : 'Mostrar' }} Debug
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Informações da Configuração -->
+        <div class="card mb-3" *ngIf="config.Inicio?.corTema">
+          <div class="card-header">
+            <h6 class="card-title mb-0">
+              <i class="bi bi-palette me-2"></i>
+              Configuração Atual
+            </h6>
+          </div>
+          <div class="card-body">
+            <div class="small text-muted">
+              <strong>Tema:</strong> {{ config.Inicio?.corTema }}<br>
+              <strong>Título:</strong> {{ config.Inicio?.tituloPagina }}<br>
+              <strong>Footer:</strong> {{ config.Inicio?.footer?.mostrar ? 'Ativo' : 'Inativo' }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Cache Stats -->
+        <div class="card mb-3" *ngIf="cacheStats">
+          <div class="card-header">
+            <h6 class="card-title mb-0">
+              <i class="bi bi-hdd-stack me-2"></i>
+              Estatísticas do Cache
+            </h6>
+          </div>
+          <div class="card-body">
+            <small class="text-muted">{{ formatarEstatisticasCache() }}</small>
+          </div>
+        </div>
+
+        <!-- Debug Panel -->
+        <div class="card" *ngIf="mostrarDebug">
+          <div class="card-header">
+            <h6 class="card-title mb-0">
+              <i class="bi bi-terminal me-2"></i>
+              Log de Eventos
+            </h6>
+          </div>
+          <div class="card-body">
+            <div class="debug-log">
+              <div *ngFor="let event of events" class="small mb-1">
+                {{ event }}
+              </div>
+              <div *ngIf="events.length === 0" class="text-muted small">
+                Nenhum evento registrado ainda...
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dados Raw da API (para debug) -->
+        <div class="card" *ngIf="mostrarDebug && config">
+          <div class="card-header">
+            <h6 class="card-title mb-0">
+              <i class="bi bi-code-square me-2"></i>
+              Dados Brutos da API
+            </h6>
+          </div>
+          <div class="card-body">
+            <pre class="small text-muted mb-0" style="max-height: 300px; overflow-y: auto;">{{ config | json }}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fallback quando não há dados -->
+    <div *ngIf="!isLoading && !error && !config.Inicio?.tituloPagina" class="text-center py-5">
+      <div class="text-muted">
+        <i class="bi bi-exclamation-circle" style="font-size: 3rem;"></i>
+        <h3 class="mt-3">Nenhum dado disponível</h3>
+        <p>Não foi possível carregar as configurações.</p>
+        <button class="btn btn-primary" (click)="recarregar()">
+          <i class="bi bi-arrow-clockwise me-2"></i>
+          Tentar Novamente
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer *ngIf="config.Inicio?.footer?.mostrar" class="bg-light text-center py-3 mt-5">
+    <div class="container">
+      <p class="mb-0 text-muted">{{ config.Inicio?.footer?.texto }}</p>
+    </div>
+  </footer>
+</div> 

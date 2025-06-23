@@ -1,0 +1,20 @@
+{
+  "timestamp": 1703980800000,
+  "type": "project",
+  "data": {
+    "1750609435029": {
+      "nameFolder": "Inicio",
+      "description": "Página inicial do projeto",
+      "keys": {
+        "tituloPagina": "ConfDrive SDK - Exemplo",
+        "subtituloPagina": "Demonstração do SDK de Configuração",
+        "conteudoHtml": "<p>Este é um exemplo de como usar o <strong>ConfDrive SDK</strong> em uma aplicação Angular.</p><p>O SDK permite que você:</p><ul><li>Carregue configurações remotamente</li><li>Use cache inteligente</li><li>Tenha valores padrão para fallback</li><li>Monitore eventos em tempo real</li></ul><div class='alert alert-info'><i class='bi bi-info-circle'></i> Esta página está sendo renderizada com dados vindos do ConfDrive!</div>",
+        "corTema": "#007bff",
+        "footer": {
+          "mostrar": true,
+          "texto": "Exemplo criado com ConfDrive SDK © 2024"
+        }
+      }
+    }
+  }
+}

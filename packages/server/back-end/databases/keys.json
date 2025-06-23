@@ -1,0 +1,255 @@
+{
+    "keys": {},
+    "keys_by_folder": {},
+    "folder_keys": {
+        "1750463712382": {
+            "1750463892709": {
+                "name": "test",
+                "type": "string",
+                "value": "aaa",
+                "description": "",
+                "folderId": "1750463712382",
+                "createdAt": "2025-06-20T23:58:12.709Z",
+                "createdBy": "admin-1750189499415"
+            },
+            "1750464827824": {
+                "name": "num",
+                "type": "number",
+                "value": 123,
+                "description": "",
+                "folderId": "1750463712382",
+                "createdAt": "2025-06-21T00:13:47.824Z",
+                "createdBy": "admin-1750189499415"
+            },
+            "1750464841497": {
+                "name": "aaa",
+                "type": "boolean",
+                "value": false,
+                "description": "",
+                "folderId": "1750463712382",
+                "createdAt": "2025-06-21T00:14:01.497Z",
+                "createdBy": "admin-1750189499415"
+            },
+            "1750464857691": {
+                "name": "bbb",
+                "type": "boolean",
+                "value": true,
+                "description": "",
+                "folderId": "1750463712382",
+                "createdAt": "2025-06-21T00:14:17.691Z",
+                "createdBy": "admin-1750189499415"
+            },
+            "1750464924771": {
+                "name": "aadwadwa",
+                "type": "json",
+                "value": {
+                    "dwad": "wdwad",
+                    "dwawad": true
+                },
+                "description": "",
+                "folderId": "1750463712382",
+                "createdAt": "2025-06-21T00:15:24.771Z",
+                "createdBy": "admin-1750189499415"
+            }
+        },
+        "1750464963182": {
+            "1750464972156": {
+                "name": "aaa",
+                "type": "string",
+                "value": "3432423",
+                "description": "",
+                "folderId": "1750464963182",
+                "createdAt": "2025-06-21T00:16:12.156Z",
+                "createdBy": "admin-1750189499415"
+            },
+            "1750465155622": {
+                "name": "Test Aloo servços aló",
+                "type": "string",
+                "value": "aaaa",
+                "description": "",
+                "folderId": "1750464963182",
+                "createdAt": "2025-06-21T00:19:15.622Z",
+                "createdBy": "admin-1750189499415"
+            },
+            "1750465174693": {
+                "name": "[{wa dwawa aw",
+                "type": "string",
+                "value": "aaa wd{",
+                "description": "",
+                "folderId": "1750464963182",
+                "createdAt": "2025-06-21T00:19:34.693Z",
+                "createdBy": "admin-1750189499415"
+            },
+            "1750465193668": {
+                "name": "wd a d\" wdwa dwa",
+                "type": "string",
+                "value": "aw dwa \" wd",
+                "description": "",
+                "folderId": "1750464963182",
+                "createdAt": "2025-06-21T00:19:53.668Z",
+                "createdBy": "admin-1750189499415"
+            },
+            "1750465588433": {
+                "name": "awdwad",
+                "type": "string",
+                "value": "adawd",
+                "description": " dawd aw dwaq",
+                "folderId": "1750464963182",
+                "createdAt": "2025-06-21T00:26:28.433Z",
+                "createdBy": "admin-1750189499415"
+            },
+            "1750465619201": {
+                "name": "nome",
+                "type": "string",
+                "value": "valor",
+                "description": "descricao",
+                "folderId": "1750464963182",
+                "createdAt": "2025-06-21T00:26:59.201Z",
+                "createdBy": "admin-1750189499415"
+            }
+        },
+        "1750474558694": {
+            "1750474614138": {
+                "name": "msgSucesso",
+                "type": "string",
+                "value": "Alo",
+                "description": "",
+                "folderId": "1750474558694",
+                "createdAt": "2025-06-21T02:56:54.138Z",
+                "createdBy": "admin-1750189499415"
+            }
+        },
+        "1750474578838": {
+            "1750474688500": {
+                "name": "awda",
+                "type": "string",
+                "value": "awdwad",
+                "description": "",
+                "folderId": "1750474578838",
+                "createdAt": "2025-06-21T02:58:08.500Z",
+                "createdBy": "admin-1750189499415"
+            },
+            "1750474716750": {
+                "name": "ativarVitrine",
+                "type": "boolean",
+                "value": false,
+                "description": "",
+                "folderId": "1750474578838",
+                "createdAt": "2025-06-21T02:58:36.750Z",
+                "createdBy": "admin-1750189499415"
+            }
+        },
+        "1750527955421": {
+            "1750529848006": {
+                "name": "aaaa222",
+                "type": "number",
+                "value": 12,
+                "description": "",
+                "folderId": "1750527955421",
+                "createdAt": "2025-06-21T18:17:28.006Z",
+                "createdBy": "1750526508948",
+                "updatedAt": "2025-06-21T22:39:31.748Z"
+            }
+        },
+        "1750542692254": {
+            "1750542709986": {
+                "name": "msgsucesso",
+                "type": "string",
+                "value": "test",
+                "description": "",
+                "folderId": "1750542692254",
+                "createdAt": "2025-06-21T21:51:49.986Z",
+                "createdBy": "admin-1750526396706"
+            },
+            "1750542824299": {
+                "name": "ativaNovaTelaLogin",
+                "type": "boolean",
+                "value": false,
+                "description": "",
+                "folderId": "1750542692254",
+                "createdAt": "2025-06-21T21:53:44.299Z",
+                "createdBy": "admin-1750526396706"
+            },
+            "1750544697177": {
+                "name": "aaa",
+                "type": "json",
+                "value": {
+                    "aaaa": "aa",
+                    "bbb": 123,
+                    "ccc": {
+                        "aa": 123
+                    }
+                },
+                "description": "",
+                "folderId": "1750542692254",
+                "createdAt": "2025-06-21T22:24:57.177Z",
+                "createdBy": "admin-1750526396706",
+                "updatedAt": "2025-06-21T22:25:28.191Z"
+            }
+        },
+        "1750549226229": {
+            "1750549236780": {
+                "name": "Aa",
+                "type": "string",
+                "value": "12",
+                "description": "",
+                "folderId": "1750549226229",
+                "createdAt": "2025-06-21T23:40:36.780Z",
+                "createdBy": "1750526508948"
+            }
+        },
+        "1750609435029": {
+            "1750609473394": {
+                "name": "tituloPagina",
+                "type": "string",
+                "value": "ConfDrive SDK - Exemplo 4",
+                "description": "",
+                "folderId": "1750609435029",
+                "createdAt": "2025-06-22T16:24:33.394Z",
+                "createdBy": "admin-1750526396706",
+                "updatedAt": "2025-06-23T00:29:27.259Z"
+            },
+            "1750609499975": {
+                "name": "subtituloPagina",
+                "type": "string",
+                "value": "Demonstração do SDK de Configuração",
+                "description": "",
+                "folderId": "1750609435029",
+                "createdAt": "2025-06-22T16:24:59.975Z",
+                "createdBy": "admin-1750526396706"
+            },
+            "1750609574426": {
+                "name": "corTema",
+                "type": "color",
+                "value": "#FF0000",
+                "description": "",
+                "folderId": "1750609435029",
+                "createdAt": "2025-06-22T16:26:14.426Z",
+                "createdBy": "admin-1750526396706",
+                "updatedAt": "2025-06-23T02:39:43.488Z"
+            },
+            "1750609603039": {
+                "name": "conteudoHtml",
+                "type": "html",
+                "value": "<p>Este é um exemplo de como usar o <strong>ConfDrive SDK</strong> em uma aplicação Angular.</p>\r\n\r\n<p>O SDK permite que você:</p>\r\n\r\n<ul>\r\n  <li>Carregue configurações remotamente</li>\r\n  <li>Use cache inteligente</li>\r\n  <li>Tenha valores padrão para fallback</li>\r\n  <li>Monitore eventos em tempo real</li>\r\n</ul>\r\n\r\n<div class='alert alert-info'>\r\n  <i class='bi bi-info-circle'></i>\r\n   Esta página está sendo renderizada com dados vindos do ConfDrive!\r\n</div>",
+                "description": "",
+                "folderId": "1750609435029",
+                "createdAt": "2025-06-22T16:26:43.039Z",
+                "createdBy": "admin-1750526396706",
+                "updatedAt": "2025-06-22T19:52:10.553Z"
+            },
+            "1750609700925": {
+                "name": "footer",
+                "type": "json",
+                "value": {
+                    "mostrar": true,
+                    "texto": "Exemplo criado com ConfDrive SDK © 2024"
+                },
+                "description": "",
+                "folderId": "1750609435029",
+                "createdAt": "2025-06-22T16:28:20.925Z",
+                "createdBy": "admin-1750526396706"
+            }
+        }
+    }
+}
