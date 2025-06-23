@@ -1,0 +1,285 @@
+<div class="container-fluid mt-4">
+  <!-- Cabeçalho -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <button class="btn btn-outline-secondary" (click)="goBack()">
+      <i class="bi bi-arrow-left"></i>
+      <span class="ms-2">Voltar</span>
+    </button>
+    <div class="text-center flex-grow-1">
+      <h2 class="mb-1">
+        <i [class]="isEditMode ? 'bi bi-pencil-square me-2' : 'bi bi-plus-circle me-2'"></i>
+        {{ isEditMode ? 'Editar Chave' : 'Nova Chave' }}
+      </h2>
+      <p class="text-muted mb-0">
+        <i class="bi bi-folder me-1"></i>
+        {{ folderName }}
+      </p>
+    </div>
+    <div style="width: 100px;"></div> <!-- Espaçador para centralizar -->
+  </div>
+
+  <!-- Formulário -->
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <!-- Mensagem de erro -->
+          <div class="alert alert-danger" *ngIf="error">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            {{ error }}
+          </div>
+
+          <form (ngSubmit)="saveKey()" #keyFormRef="ngForm">
+            <div class="mb-3">
+              <label for="keyName" class="form-label">
+                Nome da Chave <span class="text-danger">*</span>
+              </label>
+              <input type="text" 
+                     class="form-control" 
+                     id="keyName" 
+                     [(ngModel)]="keyForm.key"
+                     name="keyName"
+                     placeholder="Digite o nome da chave"
+                     required>
+            </div>
+
+            <div class="mb-3">
+              <label for="keyType" class="form-label">
+                Tipo <span class="text-danger">*</span>
+              </label>
+              <select class="form-select" 
+                      id="keyType" 
+                      [(ngModel)]="keyForm.type"
+                      name="keyType"
+                      (ngModelChange)="onTypeChange()"
+                      required>
+                <option value="string">Texto</option>
+                <option value="number">Número</option>
+                <option value="boolean">Booleano</option>
+                <option value="color">Cor</option>
+                <option value="json">JSON</option>
+                <option value="array">Array</option>
+                <option value="html">HTML</option>
+                <option value="css">CSS</option>
+                <option value="javascript">JavaScript</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="keyValue" class="form-label">
+                Valor <span class="text-danger">*</span>
+              </label>
+              <ng-container [ngSwitch]="keyForm.type">
+                <input *ngSwitchCase="'string'"
+                       type="text" 
+                       class="form-control"
+                       id="keyValue"
+                       [(ngModel)]="keyForm.value"
+                       name="keyValue"
+                       placeholder="Digite o valor"
+                       required>
+                       
+                <input *ngSwitchCase="'number'"
+                       type="number" 
+                       class="form-control"
+                       id="keyValue"
+                       [(ngModel)]="keyForm.value"
+                       name="keyValue"
+                       placeholder="Digite o número"
+                       required>
+                       
+                <select *ngSwitchCase="'boolean'"
+                        class="form-select"
+                        id="keyValue"
+                        [(ngModel)]="keyForm.value"
+                        name="keyValue"
+                        required>
+                  <option [ngValue]="true">Verdadeiro</option>
+                  <option [ngValue]="false">Falso</option>
+                </select>
+                
+                <div *ngSwitchCase="'json'" class="monaco-editor-container">
+                  <div #monacoEditor 
+                       class="monaco-editor"
+                       style="height: 300px; border: 1px solid #ced4da; border-radius: 0.375rem;">
+                  </div>
+                  <input type="hidden" 
+                         [(ngModel)]="keyForm.value"
+                         name="keyValue"
+                         required>
+                </div>
+
+                <div *ngSwitchCase="'array'" class="monaco-editor-container">
+                  <div #monacoEditor 
+                       class="monaco-editor"
+                       style="height: 300px; border: 1px solid #ced4da; border-radius: 0.375rem;">
+                  </div>
+                  <input type="hidden" 
+                         [(ngModel)]="keyForm.value"
+                         name="keyValue"
+                         required>
+                </div>
+
+                <div *ngSwitchCase="'html'" class="monaco-editor-container">
+                  <div #monacoEditor 
+                       class="monaco-editor"
+                       style="height: 300px; border: 1px solid #ced4da; border-radius: 0.375rem;">
+                  </div>
+                  <input type="hidden" 
+                         [(ngModel)]="keyForm.value"
+                         name="keyValue"
+                         required>
+                </div>
+
+                <div *ngSwitchCase="'css'" class="monaco-editor-container">
+                  <div #monacoEditor 
+                       class="monaco-editor"
+                       style="height: 300px; border: 1px solid #ced4da; border-radius: 0.375rem;">
+                  </div>
+                  <input type="hidden" 
+                         [(ngModel)]="keyForm.value"
+                         name="keyValue"
+                         required>
+                </div>
+
+                <div *ngSwitchCase="'javascript'" class="monaco-editor-container">
+                  <div #monacoEditor 
+                       class="monaco-editor"
+                       style="height: 300px; border: 1px solid #ced4da; border-radius: 0.375rem;">
+                  </div>
+                  <input type="hidden" 
+                         [(ngModel)]="keyForm.value"
+                         name="keyValue"
+                         required>
+                </div>
+
+                <div *ngSwitchCase="'color'" class="color-input-container">
+                  <div class="mb-3">
+                    <label class="form-label">Código Hexadecimal</label>
+                    <div class="input-group">
+                      <input type="text" 
+                             class="form-control form-control-lg"
+                             [(ngModel)]="keyForm.value"
+                             name="keyValue"
+                             placeholder="#FF0000"
+                             pattern="^#[0-9A-Fa-f]{3}$|^#[0-9A-Fa-f]{6}$"
+                             title="Código hexadecimal da cor (ex: #FF0000 ou #F00)"
+                             style="font-family: 'Courier New', monospace; font-weight: bold;"
+                             required>
+                      <button class="btn btn-outline-secondary" 
+                              type="button" 
+                              (click)="toggleColorPicker()"
+                              title="Abrir seletor de cor">
+                        <i class="bi bi-palette"></i>
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div class="color-preview-section d-flex align-items-center mb-3">
+                    <div class="color-preview-large me-3" 
+                         [style.background-color]="getValidColorForDisplay(keyForm.value)"
+                         style="width: 60px; height: 40px; border: 2px solid #dee2e6; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    </div>
+                    <div>
+                      <div class="fw-bold">{{ keyForm.value || '#000000' }}</div>
+                      <small class="text-muted">Preview da cor selecionada</small>
+                    </div>
+                  </div>
+                  
+                  <!-- Color picker do ngx-color -->
+                  <div class="color-picker-section" [class.d-none]="!showColorPicker">
+                    <label class="form-label">Seletor de Cor Profissional</label>
+                    <div class="color-picker-wrapper">
+                      <color-chrome 
+                        [color]="keyForm.value || '#000000'"
+                        [disableAlpha]="true"
+                        (onChangeComplete)="onColorChangeComplete($event)">
+                      </color-chrome>
+                    </div>
+                  </div>
+                  
+                  <!-- Paleta de cores comum -->
+                  <div class="color-palette mt-3">
+                    <label class="form-label">Cores Comuns</label>
+                    <div class="d-flex flex-wrap gap-2">
+                      <button type="button" 
+                              class="btn p-0 border rounded"
+                              *ngFor="let color of commonColors"
+                              [style.background-color]="color"
+                              [style.width.px]="32"
+                              [style.height.px]="32"
+                              [title]="color"
+                              (click)="selectCommonColor(color)">
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              
+              <div class="form-text" *ngIf="keyForm.type === 'json' && !jsonValidationError">
+                <i class="bi bi-info-circle me-1"></i>
+                Digite um JSON válido (ex: {{ '{' }}"chave": "valor"{{ '}' }})
+              </div>
+              
+              <div class="form-text" *ngIf="keyForm.type === 'array' && !jsonValidationError">
+                <i class="bi bi-info-circle me-1"></i>
+                Digite um array válido (ex: ["item1", "item2", "item3"])
+              </div>
+              
+              <div class="form-text" *ngIf="keyForm.type === 'html' && !jsonValidationError">
+                <i class="bi bi-info-circle me-1"></i>
+                Digite código HTML válido
+              </div>
+              
+              <div class="form-text" *ngIf="keyForm.type === 'css' && !jsonValidationError">
+                <i class="bi bi-info-circle me-1"></i>
+                Digite código CSS válido
+              </div>
+              
+              <div class="form-text" *ngIf="keyForm.type === 'javascript' && !jsonValidationError">
+                <i class="bi bi-info-circle me-1"></i>
+                Digite código JavaScript válido
+              </div>
+              
+              <div class="form-text" *ngIf="keyForm.type === 'color' && !jsonValidationError">
+                <i class="bi bi-info-circle me-1"></i>
+                Escolha uma cor usando o seletor ou digite o código hexadecimal (ex: #FF0000 para vermelho ou #F00 para formato curto)
+              </div>
+              
+              <div class="alert alert-danger mt-2" *ngIf="jsonValidationError">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                <div style="white-space: pre-line;">{{ jsonValidationError }}</div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="keyDescription" class="form-label">Descrição</label>
+              <textarea class="form-control" 
+                       id="keyDescription" 
+                       [(ngModel)]="keyForm.description"
+                       name="keyDescription"
+                       rows="3"
+                       placeholder="Digite uma descrição para a chave (opcional)"></textarea>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2">
+              <button type="button" 
+                      class="btn btn-secondary" 
+                      (click)="goBack()">
+                <i class="bi bi-x-circle me-1"></i>
+                Cancelar
+              </button>
+              <button type="submit" 
+                      class="btn btn-primary" 
+                      [disabled]="!keyFormRef.valid || !isValidKey() || jsonValidationError"
+                      [title]="jsonValidationError ? 'Corrija os erros no JSON para continuar' : ''">
+                <i [class]="isEditMode ? 'bi bi-check-circle me-1' : 'bi bi-plus-circle me-1'"></i>
+                {{ isEditMode ? 'Atualizar' : 'Criar' }} Chave
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

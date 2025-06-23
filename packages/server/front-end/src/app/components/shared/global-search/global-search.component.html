@@ -1,0 +1,28 @@
+<div class="global-search">
+  <form (ngSubmit)="onSearchSubmit()" class="search-form">
+    <div class="search-input-container">
+      <input 
+        #searchInput
+        type="text" 
+        class="form-control search-input"
+        placeholder="Buscar chaves..."
+        [(ngModel)]="searchTerm"
+        name="search">
+      
+      <button 
+        type="button" 
+        class="btn btn-link search-clear" 
+        *ngIf="searchTerm"
+        (click)="clearSearch()">
+        <i class="bi bi-x"></i>
+      </button>
+      
+      <button 
+        type="submit" 
+        class="btn btn-primary search-submit"
+        [disabled]="searchTerm.trim().length < 2">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </form>
+</div> 

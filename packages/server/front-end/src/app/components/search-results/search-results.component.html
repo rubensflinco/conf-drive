@@ -1,0 +1,70 @@
+<div class="search-results-container">
+  <!-- Barra de busca global -->
+  <div class="search-container mb-4">
+    <app-global-search [initialSearchTerm]="searchTerm"></app-global-search>
+  </div>
+
+  <!-- Cabeçalho -->
+  <div class="search-header">
+    <div class="d-flex align-items-center mb-3">
+      <button class="btn btn-outline-secondary me-3" (click)="goBack()">
+        <i class="bi bi-arrow-left"></i> Voltar
+      </button>
+      <div>
+        <h3 class="mb-1">Resultados da Busca</h3>
+        <p class="text-muted mb-0">
+          Buscando por: <strong>"{{ searchTerm }}"</strong>
+          <span *ngIf="!isLoading && totalResults > 0"> - {{ totalResults }} resultado(s)</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="text-center py-5" *ngIf="isLoading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Carregando...</span>
+    </div>
+    <p class="mt-3 text-muted">Buscando chaves...</p>
+  </div>
+
+  <!-- Erro -->
+  <div class="alert alert-danger" *ngIf="error">
+    <i class="bi bi-exclamation-triangle"></i>
+    {{ error }}
+  </div>
+
+  <!-- Resultados -->
+  <div class="results-container" *ngIf="!isLoading && !error">
+    
+    <!-- Nenhum resultado -->
+    <div class="no-results text-center py-5" *ngIf="searchResults.length === 0">
+      <div class="mb-4">
+        <i class="bi bi-search" style="font-size: 4rem; color: #6c757d;"></i>
+      </div>
+      <h4 class="text-muted">Nenhuma chave encontrada</h4>
+      <p class="text-muted">
+        Não foram encontradas chaves que correspondam ao termo <strong>"{{ searchTerm }}"</strong>
+      </p>
+      <p class="text-muted">
+        <small>
+          A busca procura em nomes, valores e descrições das chaves nos projetos que você tem acesso.
+        </small>
+      </p>
+    </div>
+
+    <!-- Lista de resultados -->
+    <div class="results-list" *ngIf="searchResults.length > 0">
+      <div *ngFor="let result of searchResults" class="mb-3">
+        <app-key-card 
+          [key]="result.key"
+          [project]="result.project"
+          [folder]="result.folder"
+          [showLocation]="true"
+          [showActions]="true"
+          [clickable]="true">
+        </app-key-card>
+      </div>
+    </div>
+  </div>
+</div> 

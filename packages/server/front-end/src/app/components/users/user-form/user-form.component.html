@@ -1,0 +1,121 @@
+<div class="user-form-container">
+  <!-- Header com navegação -->
+  <div class="d-flex align-items-center mb-4">
+    <button class="btn btn-outline-secondary me-3" (click)="cancel()">
+      <i class="bi bi-arrow-left"></i>
+    </button>
+    <h2>
+      <i class="bi bi-person me-2"></i>{{ pageTitle }}
+    </h2>
+  </div>
+
+  <!-- Mensagem de erro -->
+  <div class="alert alert-danger" *ngIf="error">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
+  </div>
+
+  <!-- Formulário -->
+  <div class="card">
+    <div class="card-body">
+      <form (ngSubmit)="saveUser()" autocomplete="off">
+        <!-- Campos fake para evitar autocomplete do navegador -->
+        <input type="text" style="display:none" autocomplete="username">
+        <input type="password" style="display:none" autocomplete="current-password">
+        
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="name" class="form-label">Nome *</label>
+              <input type="text" class="form-control" id="name" [(ngModel)]="userForm.name" name="name"
+                placeholder="Digite o nome do usuário" autocomplete="off" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email *</label>
+              <input type="email" class="form-control" id="email" [(ngModel)]="userForm.email" name="email"
+                placeholder="Digite o email do usuário" autocomplete="off" [disabled]="isEditing" required>
+              <div class="form-text" *ngIf="isEditing">
+                O email não pode ser alterado após a criação
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="password" class="form-label">Senha *</label>
+              <input type="password" class="form-control" id="password" [(ngModel)]="userForm.password" name="password"
+                placeholder="Digite a senha (mínimo 6 caracteres)" minlength="6" autocomplete="new-password" required>
+              <div class="form-text">
+                A senha deve ter no mínimo 6 caracteres
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="role" class="form-label">Perfil *</label>
+              <select class="form-select" id="role" [(ngModel)]="userForm.role" name="role" required>
+                <option value="user">Usuário</option>
+                <option value="admin">Administrador</option>
+              </select>
+              <div class="form-text">
+                Defina o nível de acesso do usuário
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-4 mt-4">
+          <label class="form-label">Projetos</label>
+          <div class="form-text mb-3">
+            Selecione os projetos que o usuário terá acesso
+          </div>
+
+          <div class="projects-selection" *ngIf="projects.length > 0; else noProjects">
+            <div class="row">
+              <div class="col-md-6 mb-3" *ngFor="let project of projects">
+                <div class="card project-card" [class.selected]="isProjectSelected(project.id)">
+                  <div class="card-body p-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" [id]="'project-' + project.id"
+                        [checked]="isProjectSelected(project.id)" (change)="toggleProjectSelection(project.id)">
+                      <label class="form-check-label w-100" [for]="'project-' + project.id">
+                        <div class="d-flex align-items-start">
+                          <i class="bi bi-folder2 text-primary me-2 mt-1"></i>
+                          <div class="flex-grow-1">
+                            <strong class="d-block">{{ project.name }}</strong>
+                            <small class="text-muted">{{ project.description }}</small>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #noProjects>
+            <div class="alert alert-info">
+              <i class="bi bi-info-circle me-2"></i>
+              Nenhum projeto disponível no sistema
+            </div>
+          </ng-template>
+        </div>
+
+        <!-- Actions -->
+        <div class="d-flex justify-content-end gap-2">
+          <button type="button" class="btn btn-secondary" (click)="cancel()">
+            <i class="bi bi-x-lg me-2"></i>Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-check-lg me-2"></i>
+            {{ isEditing ? 'Salvar Alterações' : 'Criar Usuário' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

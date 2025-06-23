@@ -1,0 +1,139 @@
+.monaco-editor-container {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #1e1e1e;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.monaco-editor-header {
+  background-color: #2d2d30;
+  padding: 8px 12px;
+  border-bottom: 1px solid #3e3e42;
+  
+  .badge {
+    font-size: 0.75rem;
+    padding: 0.3em 0.6em;
+  }
+  
+  .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    
+    &:hover {
+      background-color: #404040;
+      border-color: #404040;
+    }
+  }
+}
+
+.monaco-editor-content {
+  position: relative;
+  min-height: 100px;
+  
+  // Garantir que o Monaco Editor ocupe todo o espaço
+  :host ::ng-deep .monaco-editor {
+    border-radius: 0;
+  }
+  
+  // Estilização das barras de rolagem do Monaco
+  :host ::ng-deep .monaco-scrollable-element > .scrollbar {
+    &.horizontal {
+      height: 10px;
+    }
+    
+    &.vertical {
+      width: 10px;
+    }
+    
+    .slider {
+      background-color: rgba(255, 255, 255, 0.2) !important;
+      border-radius: 5px;
+      
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.3) !important;
+      }
+    }
+  }
+  
+  // Personalização adicional para o tema escuro
+  :host ::ng-deep .monaco-editor.vs-dark {
+    .margin {
+      background-color: #1e1e1e;
+    }
+    
+    .lines-content {
+      background-color: #1e1e1e;
+    }
+  }
+}
+
+// Fallback para quando o Monaco Editor não conseguir carregar
+.fallback-code {
+  margin: 0;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-x: auto;
+  
+  code {
+    background: none;
+    color: inherit;
+    padding: 0;
+  }
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .monaco-editor-header {
+    padding: 6px 10px;
+    
+    .d-flex {
+      gap: 0.5rem;
+    }
+    
+    .badge {
+      font-size: 0.7rem;
+    }
+    
+    .btn {
+      padding: 0.2rem 0.4rem;
+      font-size: 0.8rem;
+    }
+  }
+  
+  .monaco-editor-content {
+    :host ::ng-deep .monaco-editor {
+      font-size: 13px !important;
+    }
+  }
+  
+  .fallback-code {
+    font-size: 13px;
+    padding: 0.75rem !important;
+  }
+}
+
+// Estados especiais
+.monaco-editor-container.loading {
+  .monaco-editor-content::before {
+    content: 'Carregando editor...';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #888;
+    font-style: italic;
+  }
+}
+
+.monaco-editor-container.error {
+  border-color: #dc3545;
+  
+  .monaco-editor-header {
+    background-color: #dc3545;
+    color: white;
+  }
+} 

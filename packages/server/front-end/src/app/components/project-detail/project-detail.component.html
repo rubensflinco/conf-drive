@@ -1,0 +1,237 @@
+<div class="container-fluid mt-4">
+
+  <!-- Barra de busca global -->
+  <div class="search-container mb-4">
+    <app-global-search></app-global-search>
+  </div>
+
+  <!-- Breadcrumb existente -->
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a [routerLink]="['/projects']" class="text-decoration-none">
+          <i class="bi bi-house-door"></i> Projetos
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ project?.name }}
+      </li>
+    </ol>
+  </nav>
+
+  <!-- Título e Botões -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h2 class="mb-1">
+            <i class="bi bi-folder-fill me-2"></i>{{ project?.name }}
+          </h2>
+          <p class="text-muted mb-0">{{ project?.description }}</p>
+        </div>
+        <div class="d-flex gap-2">
+                  <!-- Botão de invalidar cache -->
+        <button 
+          class="btn btn-warning" 
+          data-bs-toggle="modal" 
+          data-bs-target="#confirmCacheInvalidationModal"
+          [disabled]="invalidatingCache"
+          title="Invalida o cache deste projeto em todos os SDKs conectados">
+          <i class="bi" [class]="invalidatingCache ? 'bi-arrow-clockwise spin' : 'bi-arrow-clockwise'"></i>
+          {{ invalidatingCache ? 'Invalidando...' : 'Invalidar Cache' }}
+        </button>
+
+          <!-- Botão da API Docs -->
+          <button class="btn btn-info" (click)="openApiDocs()">
+            <i class="bi bi-code-slash me-2"></i>API Docs
+          </button>
+          <button class="btn btn-outline-info" 
+                  (click)="navigateToProjectApiDocs()">
+            <i class="bi bi-code-slash"></i> API do Projeto
+          </button>
+          <button class="btn btn-primary" 
+                  data-bs-toggle="modal" 
+                  data-bs-target="#createFolderModal"
+                  (click)="resetForm()">
+            <i class="bi bi-plus-lg"></i> Nova Pasta
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alert de cache invalidado -->
+  <div class="alert alert-success alert-dismissible fade show" 
+       *ngIf="cacheInvalidated" 
+       role="alert">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    Cache do projeto invalidado com sucesso! Todos os SDKs conectados receberão dados atualizados.
+    <button type="button" class="btn-close" (click)="cacheInvalidated = false"></button>
+  </div>
+
+  <!-- Alert de erro na invalidação -->
+  <div class="alert alert-danger alert-dismissible fade show" 
+       *ngIf="cacheInvalidationError" 
+       role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    {{ cacheInvalidationError }}
+    <button type="button" class="btn-close" (click)="cacheInvalidationError = null"></button>
+  </div>
+
+  <!-- Grid de Pastas -->
+  <div class="row g-4">
+    <!-- Card para cada pasta -->
+    <div class="col-md-4 col-lg-3" *ngFor="let folder of project?.folders">
+      <div class="card h-100 folder-card" 
+           (click)="openFolder(folder.id)">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div class="folder-icon">
+              <i class="bi bi-folder-fill text-primary fs-3"></i>
+            </div>
+            <div class="d-flex gap-1">
+              <button class="btn btn-outline-info btn-sm"
+                      (click)="navigateToFolderApiDocs(folder.id, folder.name); $event.stopPropagation()"
+                      title="Ver documentação da API">
+                <i class="bi bi-code-slash"></i>
+              </button>
+              <button *ngIf="isAdmin" 
+                      class="btn btn-outline-danger btn-sm"
+                      (click)="deleteFolder(folder.id); $event.stopPropagation()">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+          <h5 class="card-title mb-2">{{ folder.name }}</h5>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensagem quando não há pastas -->
+    <div class="col-12" *ngIf="!project?.folders?.length">
+      <div class="alert alert-info text-center">
+        <i class="bi bi-folder-x me-2"></i>
+        Nenhuma pasta encontrada. Clique em "Nova Pasta" para criar uma.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para Criar Nova Pasta -->
+<div class="modal fade" id="createFolderModal" tabindex="-1" aria-labelledby="createFolderModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createFolderModalLabel">
+          <i class="bi bi-folder-plus me-2"></i>
+          Nova Pasta
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="confirmCreateFolder()" #folderForm="ngForm">
+          <div class="mb-3">
+            <label for="folderName" class="form-label">Nome da Pasta</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="folderName" 
+              [(ngModel)]="newFolderName" 
+              name="folderName"
+              placeholder="Digite o nome da pasta"
+              required
+              #folderNameInput>
+          </div>
+          <div class="alert alert-danger" *ngIf="folderNameError">
+            {{ folderNameError }}
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancelar
+        </button>
+        <button 
+          type="button" 
+          class="btn btn-primary" 
+          (click)="confirmCreateFolder()"
+          [disabled]="!newFolderName.trim()">
+          <i class="bi bi-check-lg me-1"></i>
+          Criar Pasta
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Confirmação de Invalidação de Cache -->
+<div class="modal fade" id="confirmCacheInvalidationModal" tabindex="-1" aria-labelledby="confirmCacheInvalidationModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-warning text-dark">
+        <h5 class="modal-title" id="confirmCacheInvalidationModalLabel">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>
+          Confirmar Invalidação de Cache
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-warning" role="alert">
+          <i class="bi bi-info-circle-fill me-2"></i>
+          <strong>Atenção:</strong> Esta é uma ação que afeta todos os SDKs conectados.
+        </div>
+        
+        <p>Você está prestes a invalidar o cache do projeto <strong>"{{ project?.name }}"</strong>.</p>
+        
+        <h6 class="mt-3 mb-2">Esta ação irá:</h6>
+        <ul class="list-unstyled">
+          <li><i class="bi bi-check-circle text-primary me-2"></i>Forçar todos os SDKs conectados a buscar dados atualizados</li>
+          <li><i class="bi bi-check-circle text-primary me-2"></i>Limpar o cache local de todas as aplicações</li>
+          <li><i class="bi bi-exclamation-circle text-warning me-2"></i>Pode causar um aumento temporário na latência</li>
+          <li><i class="bi bi-exclamation-circle text-warning me-2"></i>Pode resultar em múltiplas chamadas à API</li>
+        </ul>
+        
+        <div class="mt-3 p-3 bg-light rounded">
+          <small class="text-muted">
+            <i class="bi bi-lightbulb me-1"></i>
+            <strong>Dica:</strong> Use esta funcionalidade apenas quando houver atualizações importantes nas configurações que precisam ser refletidas imediatamente.
+          </small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="bi bi-x-circle me-2"></i>Cancelar
+        </button>
+        <button 
+          type="button" 
+          class="btn btn-warning"
+          [disabled]="invalidatingCache"
+          (click)="confirmCacheInvalidation()">
+          <i class="bi" [class]="invalidatingCache ? 'bi-arrow-clockwise spin me-2' : 'bi-arrow-clockwise me-2'"></i>
+          {{ invalidatingCache ? 'Invalidando...' : 'Sim, Invalidar Cache' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CSS para animação de loading -->
+<style>
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.modal-content {
+  border: none;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.modal-header.bg-warning {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+</style>

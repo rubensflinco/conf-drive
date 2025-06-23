@@ -1,0 +1,231 @@
+// Estilos antigos removidos - agora usando sidebar
+
+.sidebar-container-custom {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+  border-right: 1px solid #e9ecef;
+  overflow: hidden;
+
+  // Header da Sidebar
+  .sidebar-header-custom {
+    padding: 1rem;
+    border-bottom: 1px solid #e9ecef;
+    background-color: #fff;
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.3s ease;
+
+      &.collapsed {
+        justify-content: center;
+      }
+
+      .brand-logo {
+        .logo-link {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          text-decoration: none;
+          color: inherit;
+          transition: all 0.2s ease;
+          padding: 0.5rem;
+          border-radius: 8px;
+
+          &:hover {
+            background-color: rgba(13, 110, 253, 0.1);
+            transform: translateY(-1px);
+          }
+
+          i {
+            font-size: 1.75rem;
+            color: #0d6efd;
+          }
+
+          .brand-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #212529;
+            letter-spacing: -0.5px;
+          }
+        }
+      }
+
+      .sidebar-toggle-btn {
+        background: none;
+        border: none;
+        padding: 0.5rem;
+        border-radius: 6px;
+        color: #6c757d;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background-color: #f8f9fa;
+          color: #0d6efd;
+        }
+
+        i {
+          font-size: 1.25rem;
+        }
+      }
+    }
+  }
+
+  // Seleção de Projeto
+  .project-selector {
+    padding: 1rem;
+    border-bottom: 1px solid #e9ecef;
+    background-color: #fff;
+
+    .project-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      i {
+        color: #0d6efd;
+        font-size: 1.1rem;
+      }
+
+      select {
+        flex: 1;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        padding: 0.5rem;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+
+        &:focus {
+          border-color: #0d6efd;
+          box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
+      }
+    }
+  }
+
+  // Navegação
+  .sidebar-nav {
+    flex: 1;
+    padding: 1rem 0;
+    overflow-y: auto;
+
+    .nav-section {
+      margin-bottom: 1.5rem;
+
+      .nav-section-title {
+        padding: 0.5rem 1rem;
+        margin-bottom: 0.5rem;
+
+        span {
+          font-size: 0.75rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          color: #6c757d;
+        }
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        margin: 0.125rem 0.5rem;
+        color: #495057;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        position: relative;
+        font-weight: 500;
+
+        &:hover {
+          background-color: rgba(13, 110, 253, 0.1);
+          color: #0d6efd;
+          transform: translateX(4px);
+        }
+
+        &.active {
+          background-color: #0d6efd;
+          color: #fff;
+          box-shadow: 0 2px 8px rgba(13, 110, 253, 0.3);
+
+          &::before {
+            content: '';
+            position: absolute;
+            left: -0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 100%;
+            background-color: #0d6efd;
+            border-radius: 0 4px 4px 0;
+          }
+        }
+
+        i {
+          font-size: 1.1rem;
+          min-width: 20px;
+          display: flex;
+          justify-content: center;
+        }
+
+        span {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+
+  // Footer da Sidebar
+  .sidebar-footer {
+    padding: 1rem;
+    border-top: 1px solid #e9ecef;
+    background-color: #fff;
+
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      width: 100%;
+      padding: 0.75rem;
+      background: none;
+      border: 1px solid #dc3545;
+      border-radius: 8px;
+      color: #dc3545;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: #dc3545;
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+      }
+
+      i {
+        font-size: 1.1rem;
+      }
+
+      span {
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  // Alert
+  .alert {
+    margin: 1rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    border: none;
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+} 

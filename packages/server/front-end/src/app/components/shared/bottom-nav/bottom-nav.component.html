@@ -1,0 +1,36 @@
+<nav class="bottom-nav">
+  <div class="nav-items">
+    <!-- Pastas -->
+    <a [routerLink]="['/projects', selectedProjectId, 'folders']" 
+       routerLinkActive="active" 
+       class="nav-item"
+       *ngIf="selectedProjectId">
+      <i class="bi bi-folder"></i>
+      <span>Pastas</span>
+    </a>
+
+    <!-- Segredos -->
+    <a [routerLink]="['/projects', selectedProjectId, 'secrets']" 
+       routerLinkActive="active" 
+       class="nav-item"
+       *ngIf="selectedProjectId">
+      <i class="bi bi-shield-lock"></i>
+      <span>Segredos</span>
+    </a>
+
+    <!-- Usuários (apenas admin) -->
+    <a [routerLink]="['/users']" 
+       routerLinkActive="active" 
+       class="nav-item"
+       *ngIf="isAdmin">
+      <i class="bi bi-people"></i>
+      <span>Usuários</span>
+    </a>
+
+    <!-- Botão Menu -->
+    <button class="nav-item menu-btn" (click)="onOpenSidebar()">
+      <i class="bi bi-list"></i>
+      <span>Menu</span>
+    </button>
+  </div>
+</nav> 

@@ -1,0 +1,82 @@
+<div class="users-container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-people-fill me-2"></i>Gerenciar Usuários</h2>
+    <button class="btn btn-primary" (click)="navigateToCreateUser()">
+      <i class="bi bi-person-plus me-2"></i>Novo Usuário
+    </button>
+  </div>
+
+  <!-- Mensagem de erro -->
+  <div class="alert alert-danger" *ngIf="error">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
+  </div>
+
+
+
+  <!-- Lista de usuários -->
+  <div class="users-list">
+    <div class="card" *ngFor="let user of users" class="mb-3">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-md-4">
+            <div class="d-flex align-items-center">
+              <div class="avatar-placeholder me-3">
+                <i class="bi bi-person-circle text-primary"></i>
+              </div>
+              <div>
+                <h6 class="mb-1">{{ user.name }}</h6>
+                <small class="text-muted">{{ user.email }}</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <span [class]="getRoleBadgeClass(user.role)">
+              {{ user.role === 'admin' ? 'Admin' : 'Usuário' }}
+            </span>
+          </div>
+          <div class="col-md-4">
+            <div class="projects-list">
+              <div *ngIf="user.projects.length > 0; else noProjects">
+                <small class="text-muted d-block">Projetos ({{ user.projects.length }}):</small>
+                <div class="projects-badges">
+                  <span class="badge bg-secondary me-1 mb-1" 
+                        *ngFor="let project of user.projects.slice(0, 3)">
+                    {{ project.name }}
+                  </span>
+                  <span class="badge bg-light text-dark" 
+                        *ngIf="user.projects.length > 3">
+                    +{{ user.projects.length - 3 }} outros
+                  </span>
+                </div>
+              </div>
+              <ng-template #noProjects>
+                <small class="text-muted">Nenhum projeto atribuído</small>
+              </ng-template>
+            </div>
+          </div>
+          <div class="col-md-2 text-end">
+            <div class="btn-group btn-group-sm">
+              <button class="btn btn-outline-primary" 
+                      (click)="navigateToEditUser(user)"
+                      title="Editar usuário">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn btn-outline-danger" 
+                      (click)="deleteUser(user)"
+                      title="Excluir usuário">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensagem quando não há usuários -->
+    <div class="text-center py-5" *ngIf="users.length === 0">
+      <i class="bi bi-people display-4 text-muted"></i>
+      <h4 class="text-muted mt-3">Nenhum usuário encontrado</h4>
+      <p class="text-muted">Comece criando o primeiro usuário.</p>
+    </div>
+  </div>
+</div> 

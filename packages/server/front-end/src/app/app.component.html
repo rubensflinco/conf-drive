@@ -1,0 +1,32 @@
+<div class="app-container" [class.sidebar-collapsed]="sidebarCollapsed">
+  <!-- Loading Modal -->
+  <app-loading-modal></app-loading-modal>
+
+  <!-- Sidebar de navegação (desktop + mobile quando aberta) -->
+  <nav class="sidebar" *ngIf="isAuthenticated" [class.mobile-hidden]="isMobile && sidebarCollapsed">
+    <app-project-navbar 
+      [sidebarCollapsed]="sidebarCollapsed"
+      [isMobile]="isMobile"
+      (toggleSidebar)="toggleSidebar()"
+      (closeSidebar)="closeSidebar()">
+    </app-project-navbar>
+  </nav>
+
+  <!-- Overlay para mobile -->
+  <div class="sidebar-overlay" 
+       *ngIf="isAuthenticated && !sidebarCollapsed && isMobile" 
+       (click)="closeSidebar()">
+  </div>
+
+  <!-- Bottom Navigation (apenas mobile) -->
+  <app-bottom-nav 
+    *ngIf="isAuthenticated && isMobile"
+    [selectedProjectId]="currentProjectId"
+    (openSidebar)="openSidebar()">
+  </app-bottom-nav>
+
+  <!-- Conteúdo principal -->
+  <main class="main-content" [class.sidebar-active]="isAuthenticated && !isMobile">
+    <router-outlet></router-outlet>
+  </main>
+</div> 

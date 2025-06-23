@@ -1,0 +1,150 @@
+@use 'sass:color';
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  background-color: #f8f9fa;
+  max-width: 100vw;
+  overflow-x: hidden;
+  position: relative;
+
+  // Sidebar
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 280px;
+    background-color: #fff;
+    border-right: 1px solid #e0e0e0;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+
+    @media (max-width: 768px) {
+      width: 260px;
+      z-index: 1200; // Acima do bottom nav
+      
+      &.mobile-hidden {
+        transform: translateX(-100%);
+      }
+    }
+  }
+
+  // Sidebar colapsada no desktop
+  &.sidebar-collapsed .sidebar {
+    @media (min-width: 769px) {
+      transform: translateX(-100%);
+    }
+  }
+
+  // Overlay do mobile
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1150;
+    display: none;
+
+    @media (max-width: 768px) {
+      display: block;
+    }
+  }
+
+  // Conteúdo principal
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    transition: margin-left 0.3s ease-in-out;
+    min-height: 100vh;
+
+    &.sidebar-active {
+      margin-left: 280px;
+
+      @media (max-width: 768px) {
+        margin-left: 0;
+      }
+    }
+
+    // Padding para bottom nav no mobile
+    @media (max-width: 768px) {
+      padding-bottom: 80px;
+    }
+  }
+
+  // Sidebar fechada no desktop
+  &.sidebar-collapsed .main-content.sidebar-active {
+    @media (min-width: 769px) {
+      margin-left: 0;
+    }
+  }
+}
+
+// Estilos globais
+:root {
+  --primary-color: #0d6efd;
+  --secondary-color: #6c757d;
+  --success-color: #198754;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #0dcaf0;
+  --light-color: #f8f9fa;
+  --dark-color: #212529;
+  --sidebar-width: 280px;
+}
+
+// Animações globais
+.fade-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms ease-in, transform 300ms ease-out;
+}
+
+// Utilitários
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Melhorias de acessibilidade
+:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+// Scrollbar personalizada
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--light-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secondary-color);
+  border-radius: 4px;
+
+  &:hover {
+    background: color.adjust(#6c757d, $lightness: -10%);
+  }
+} 

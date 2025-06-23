@@ -1,0 +1,49 @@
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="mb-0">Novo Projeto</h2>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+            <!-- Mensagem de erro -->
+            <div *ngIf="error" class="alert alert-danger mb-4">
+              {{ error }}
+            </div>
+
+            <!-- Nome do projeto -->
+            <div class="mb-3">
+              <label for="name" class="form-label">Nome do Projeto *</label>
+              <input type="text" class="form-control" id="name" formControlName="name"
+                [class.is-invalid]="projectForm.get('name')?.invalid && projectForm.get('name')?.touched">
+              <div class="invalid-feedback"
+                *ngIf="projectForm.get('name')?.errors?.['required'] && projectForm.get('name')?.touched">
+                Nome do projeto é obrigatório
+              </div>
+            </div>
+
+            <!-- Descrição -->
+            <div class="mb-3">
+              <label for="description" class="form-label">Descrição *</label>
+              <textarea class="form-control" id="description" rows="3" formControlName="description"
+                [class.is-invalid]="projectForm.get('description')?.invalid && projectForm.get('description')?.touched"></textarea>
+              <div class="invalid-feedback"
+                *ngIf="projectForm.get('description')?.errors?.['required'] && projectForm.get('description')?.touched">
+                Descrição é obrigatória
+              </div>
+            </div>
+
+            <!-- Botões -->
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+              <button type="submit" class="btn btn-primary" [disabled]="projectForm.invalid">
+                Criar Projeto
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

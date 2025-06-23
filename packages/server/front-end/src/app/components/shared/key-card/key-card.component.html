@@ -1,0 +1,99 @@
+<div 
+  class="key-card" 
+  [class.clickable]="clickable"
+  (click)="onCardClick()">
+  
+  <div class="key-header">
+    <div class="key-info">
+      <h5 class="key-name">{{ key.name }}</h5>
+      <span [class]="'badge text-uppercase fw-bold text-white bg-gray badge-'+key.type">
+        {{ getTypeLabel(key.type) }}
+      </span>
+    </div>
+    <div class="key-actions" 
+         [class.always-visible]="showActions" 
+         *ngIf="showActions">
+      <button 
+        class="btn btn-sm btn-outline-primary" 
+        (click)="onEditClick($event)"
+        title="Editar chave">
+        <i class="bi bi-pencil-square"></i>
+        <span class="btn-text">Editar</span>
+      </button>
+      <button 
+        class="btn btn-sm btn-outline-danger" 
+        (click)="onDeleteClick($event)"
+        title="Excluir chave">
+        <i class="bi bi-trash"></i>
+        <span class="btn-text">Excluir</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="key-description" *ngIf="key.description">
+    <small class="text-muted">{{ key.description }}</small>
+  </div>
+
+  <div class="key-value" [class]="getTypeClass(key.type)">
+    <ng-container [ngSwitch]="key.type">
+      <!-- JSON -->
+      <div *ngSwitchCase="'json'">
+        <pre>{{ getTruncatedValue(formatValue(key.value, key.type)) }}</pre>
+      </div>
+      
+      <!-- Array -->
+      <div *ngSwitchCase="'array'">
+        <pre>{{ getTruncatedValue(formatValue(key.value, key.type)) }}</pre>
+      </div>
+      
+      <!-- HTML -->
+      <div *ngSwitchCase="'html'">
+        <pre>{{ getTruncatedValue(formatValue(key.value, key.type)) }}</pre>
+      </div>
+      
+      <!-- CSS -->
+      <div *ngSwitchCase="'css'">
+        <pre>{{ getTruncatedValue(formatValue(key.value, key.type)) }}</pre>
+      </div>
+      
+      <!-- JavaScript -->
+      <div *ngSwitchCase="'javascript'">
+        <pre>{{ getTruncatedValue(formatValue(key.value, key.type)) }}</pre>
+      </div>
+      
+      <!-- Cor -->
+      <div *ngSwitchCase="'color'" class="color-display d-flex align-items-center">
+        <div class="color-preview-box me-2" 
+             [style.background-color]="key.value"
+             style="width: 24px; height: 24px; border: 1px solid #ccc; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        </div>
+        <code>{{ formatValue(key.value, key.type) }}</code>
+      </div>
+      
+      <!-- Outros tipos -->
+      <div *ngSwitchDefault>
+        <code>{{ getTruncatedValue(formatValue(key.value, key.type)) }}</code>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="key-location" *ngIf="showLocation && project && folder">
+    <div class="location-breadcrumb">
+      <i class="bi bi-building"></i>
+      <span class="project-name">{{ project.name }}</span>
+      <i class="bi bi-chevron-right"></i>
+      <i class="bi bi-folder"></i>
+      <span class="folder-name">{{ folder.name }}</span>
+    </div>
+  </div>
+
+  
+  <div class="key-meta" *ngIf="key.createdAt">
+    <small class="text-muted">
+      Criado em {{ key.createdAt | date:'dd/MM/yyyy HH:mm' }}
+      <span *ngIf="key.updatedAt">
+        • Atualizado em {{ key.updatedAt | date:'dd/MM/yyyy HH:mm' }}
+      </span>
+    </small>
+  </div>
+</div> 

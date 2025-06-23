@@ -1,0 +1,279 @@
+<div class="container-fluid mt-4">
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a [routerLink]="['/projects']" class="text-decoration-none">
+          <i class="bi bi-house-door"></i> Projetos
+        </a>
+      </li>
+      <li class="breadcrumb-item">
+        <a [routerLink]="['/projects', projectId, 'folders']" class="text-decoration-none">
+          {{ projectName }}
+        </a>
+      </li>
+      <li class="breadcrumb-item">
+        <a [routerLink]="['/projects', projectId, 'folders', folderId]" class="text-decoration-none">
+          <i class="bi bi-folder"></i> {{ folderName }}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        <i class="bi bi-code-slash"></i> Documentação da API
+      </li>
+    </ol>
+  </nav>
+
+  <!-- Cabeçalho -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h2 class="mb-1">
+            <i class="bi bi-code-slash me-2"></i>API - {{ folderName }}
+          </h2>
+          <p class="text-muted mb-0">Documentação completa para acessar as chaves desta pasta via API REST</p>
+        </div>
+        <button class="btn btn-outline-secondary" (click)="goBack()">
+          <i class="bi bi-arrow-left"></i> Voltar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seção de Segredos de API -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="alert alert-warning">
+        <h5><i class="bi bi-shield-lock me-2"></i>Segredos de API Necessários</h5>
+        <p class="mb-3">Para usar esta API, você precisa de um segredo de API válido. O segredo deve ser enviado no header <code>X-API-Secret</code> em todas as requisições.</p>
+        <button class="btn btn-warning" (click)="goToSecretsPage()">
+          <i class="bi bi-plus-circle me-2"></i>Criar Novo Segredo
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Endpoint da API -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0"><i class="bi bi-link-45deg me-2"></i>Endpoint da API</h5>
+        </div>
+        <div class="card-body">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div>
+              <span class="badge bg-success me-2">GET</span>
+              <code class="fs-6">{{ apiUrl }}/folders/{{ folderId }}/keys</code>
+            </div>
+            <button class="btn btn-outline-secondary btn-sm" 
+                    (click)="copyToClipboard(apiUrl + '/folders/' + folderId + '/keys')"
+                    title="Copiar URL">
+              <i class="bi bi-copy"></i>
+            </button>
+          </div>
+          <p class="text-muted mb-0">Retorna todas as chaves desta pasta em formato JSON chave-valor.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Headers Obrigatórios -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0"><i class="bi bi-headers me-2"></i>Headers Obrigatórios</h5>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Header</th>
+                <th>Valor</th>
+                <th>Descrição</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>X-API-Secret</code></td>
+                <td><span class="text-muted">seu-segredo-aqui</span></td>
+                <td>Segredo de API válido do projeto</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Exemplos de Implementação -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0"><i class="bi bi-code me-2"></i>Exemplos de Implementação</h5>
+        </div>
+        <div class="card-body">
+          <!-- Tabs -->
+          <ul class="nav nav-tabs" id="codeExamples" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="curl-tab" data-bs-toggle="tab" data-bs-target="#curl" type="button" role="tab">
+                cURL
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="javascript-tab" data-bs-toggle="tab" data-bs-target="#javascript" type="button" role="tab">
+                JavaScript
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="angular-tab" data-bs-toggle="tab" data-bs-target="#angular" type="button" role="tab">
+                Angular
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="react-tab" data-bs-toggle="tab" data-bs-target="#react" type="button" role="tab">
+                React
+              </button>
+            </li>
+          </ul>
+
+          <!-- Tab Contents -->
+          <div class="tab-content mt-3" id="codeExamplesContent">
+            <!-- cURL -->
+            <div class="tab-pane fade show active" id="curl" role="tabpanel">
+              <h6 class="mb-3">Exemplo com cURL</h6>
+              <app-monaco-code-viewer 
+                [code]="getCurlExample()" 
+                language="curl"
+                [showHeader]="false">
+              </app-monaco-code-viewer>
+            </div>
+
+            <!-- JavaScript -->
+            <div class="tab-pane fade" id="javascript" role="tabpanel">
+              <h6 class="mb-3">Exemplo com JavaScript Vanilla</h6>
+              <app-monaco-code-viewer 
+                [code]="getJavaScriptExample()" 
+                language="javascript"
+                [showHeader]="false">
+              </app-monaco-code-viewer>
+            </div>
+
+            <!-- Angular -->
+            <div class="tab-pane fade" id="angular" role="tabpanel">
+              <h6 class="mb-3">Exemplo com Angular</h6>
+              <app-monaco-code-viewer 
+                [code]="getAngularExample()" 
+                language="angular"
+                [showHeader]="false">
+              </app-monaco-code-viewer>
+            </div>
+
+            <!-- React -->
+            <div class="tab-pane fade" id="react" role="tabpanel">
+              <h6 class="mb-3">Exemplo com React</h6>
+              <app-monaco-code-viewer 
+                [code]="getReactExample()" 
+                language="react"
+                [showHeader]="false">
+              </app-monaco-code-viewer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Exemplo de Resposta -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0"><i class="bi bi-file-earmark-code me-2"></i>Exemplo de Resposta</h5>
+        </div>
+        <div class="card-body">
+          <p class="text-muted mb-3">A API retorna um objeto JSON com as chaves da pasta em formato chave-valor:</p>
+          <app-monaco-code-viewer 
+            [code]="getResponseExample()" 
+            language="json"
+            theme="vs"
+            [showHeader]="false">
+          </app-monaco-code-viewer>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Códigos de Status -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0"><i class="bi bi-traffic-cone me-2"></i>Códigos de Status HTTP</h5>
+        </div>
+        <div class="card-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Descrição</th>
+                <th>Motivo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-success">
+                <td><code>200</code></td>
+                <td>OK</td>
+                <td>Chaves retornadas com sucesso</td>
+              </tr>
+              <tr class="table-warning">
+                <td><code>401</code></td>
+                <td>Unauthorized</td>
+                <td>Segredo de API inválido ou não fornecido</td>
+              </tr>
+              <tr class="table-danger">
+                <td><code>404</code></td>
+                <td>Not Found</td>
+                <td>Pasta não encontrada</td>
+              </tr>
+              <tr class="table-danger">
+                <td><code>500</code></td>
+                <td>Internal Server Error</td>
+                <td>Erro interno do servidor</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notas Importantes -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card border-info">
+        <div class="card-header bg-info text-white">
+          <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Notas Importantes</h5>
+        </div>
+        <div class="card-body">
+          <ul class="mb-0">
+            <li class="mb-2">
+              <strong>Segurança:</strong> Mantenha seus segredos de API em segurança. Nunca os exponha em código cliente ou repositórios públicos.
+            </li>
+            <li class="mb-2">
+              <strong>Rate Limiting:</strong> Esta API não possui limite de taxa, mas use com responsabilidade.
+            </li>
+            <li class="mb-2">
+              <strong>Cache:</strong> As respostas podem ser cachadas por até 5 minutos. Para obter dados sempre atualizados, considere implementar um mecanismo de invalidação de cache.
+            </li>
+            <li class="mb-0">
+              <strong>CORS:</strong> Esta API suporta CORS e pode ser chamada diretamente do navegador.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

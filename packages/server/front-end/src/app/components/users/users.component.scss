@@ -1,0 +1,89 @@
+.users-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.avatar-placeholder {
+  font-size: 2rem;
+  
+  i {
+    font-size: 2.5rem;
+  }
+}
+
+
+
+.users-list {
+  .card {
+    border: 1px solid #dee2e6;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    transition: all 0.2s ease-in-out;
+    
+    &:hover {
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+    }
+  }
+  
+  .projects-badges {
+    margin-top: 0.25rem;
+    
+    .badge {
+      font-size: 0.75rem;
+    }
+  }
+}
+
+
+
+.btn-group-sm {
+  .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+  }
+}
+
+.alert {
+  border-radius: 8px;
+  
+  &.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+  }
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .users-container {
+    padding: 10px;
+  }
+  
+  .card .row {
+    .col-md-4,
+    .col-md-2 {
+      margin-bottom: 1rem;
+    }
+  }
+  
+
+}
+
+// Animações
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+ 

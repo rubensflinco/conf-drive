@@ -1,0 +1,236 @@
+.key-card {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 20px;
+  transition: all 0.15s ease-in-out;
+  position: relative;
+
+  &.clickable {
+    cursor: pointer;
+
+    &:hover {
+      border-color: #007bff;
+      box-shadow: 0 4px 8px rgba(0, 123, 255, 0.1);
+      transform: translateY(-1px);
+    }
+  }
+
+  .key-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+
+    .key-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+
+      .key-name {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #2c3e50;
+        word-break: break-word;
+      }
+
+      .badge {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+    }
+
+    .key-actions {
+      display: flex;
+      gap: 8px;
+      opacity: 1; // Sempre visível por padrão
+      transition: opacity 0.15s ease-in-out;
+      flex-shrink: 0;
+
+      &.always-visible {
+        opacity: 1 !important; // Força visibilidade quando showActions é true
+      }
+
+      button {
+        border-radius: 6px;
+        font-size: 0.875rem;
+
+        .btn-text {
+          margin-left: 4px;
+        }
+      }
+    }
+  }
+
+  .key-description {
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    background: #f1f3f4;
+    border-radius: 4px;
+    font-style: italic;
+  }
+
+  .key-value {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 12px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-left: 4px solid var(--bs-gray);
+
+    pre, code {
+      background: none;
+      border: none;
+      padding: 0;
+      margin: 0;
+      font-family: inherit;
+      font-size: inherit;
+      color: #495057;
+      max-width: 100%;
+      white-space: nowrap;
+    }
+
+    button {
+      font-size: 0.8rem;
+      padding: 4px 8px;
+
+      .bi {
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  .key-location {
+    border-top: 1px solid #e9ecef;
+    padding-top: 12px;
+    margin-top: 12px;
+
+    .location-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      color: #6c757d;
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+
+      .bi {
+        font-size: 0.8rem;
+        flex-shrink: 0;
+      }
+
+      .project-name {
+        font-weight: 600;
+        color: #495057;
+      }
+
+      .folder-name {
+        color: #6c757d;
+      }
+    }
+
+    .key-meta {
+      font-size: 0.8rem;
+      color: #6c757d;
+    }
+  }
+}
+
+.badge-color{
+  background-color: #ff00d9;
+  background-image: linear-gradient(to right, #ff00d9, #ff7300)!important;
+}
+
+.badge-string{
+  background-color: #007bff;
+}
+
+.badge-number{
+  background-color: #28a745;
+}
+
+.badge-boolean{
+  background-color: #ffc107;
+}
+
+.badge-json{
+  background-color: #17a2b8;
+}
+
+.badge-array{
+  background-color: #6c757d;
+}
+
+.badge-html{
+  background-color: #ff9807;
+}
+
+.badge-css{
+  background-color: #6f42c1;
+}
+
+.badge-javascript{
+  background-color: #ffd700;
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .key-card {
+    padding: 15px;
+
+    .key-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+
+      .key-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        width: 100%;
+      }
+
+      .key-actions {
+        opacity: 1;
+        width: 100%;
+        justify-content: flex-end;
+
+        .btn-text {
+          display: none;
+        }
+      }
+    }
+
+    .key-value {
+      font-size: 0.85rem;
+    }
+
+    .key-location .location-breadcrumb {
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .key-card {
+    .key-header .key-actions {
+      justify-content: center;
+      gap: 12px;
+
+      button {
+        flex: 1;
+        max-width: 60px;
+      }
+    }
+  }
+} 

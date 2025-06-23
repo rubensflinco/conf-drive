@@ -1,0 +1,94 @@
+<div class="sidebar-container-custom">
+  <!-- Header da Sidebar -->
+  <div class="sidebar-header-custom">
+    <div class="brand-section" [class.collapsed]="sidebarCollapsed">
+      <div class="brand-logo">
+        <a [routerLink]="['/projects', selectedProjectId, 'folders']" class="logo-link">
+          <i class="bi bi-gear-wide-connected text-primary"></i>
+          <span class="brand-text" *ngIf="!sidebarCollapsed">ConfDrive</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Barra de busca global -->
+  <div class="search-container mt-4 mb-4 pe-3 ps-3">
+    <app-global-search (searchSubmitted)="onSearchSubmitted()"></app-global-search>
+  </div>
+
+  <!-- Seleção de Projeto -->
+  <div class="project-selector" *ngIf="!sidebarCollapsed">
+    <div class="project-info">
+      <i class="bi bi-briefcase text-primary"></i>
+      <select class="form-select form-select-sm" 
+              [(ngModel)]="selectedProjectId" 
+              (ngModelChange)="onProjectChange($event)">
+        <option *ngFor="let p of projects" [value]="p.id">{{ p.name }}</option>
+        <option *ngIf="isAdmin" disabled>----------</option>
+        <option value="new" *ngIf="isAdmin">+ Novo Projeto</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Links de navegação -->
+  <nav class="sidebar-nav">
+    <div class="nav-section" *ngIf="project">
+      <div class="nav-section-title" *ngIf="!sidebarCollapsed">
+        <span>{{ project.name }}</span>
+      </div>
+      
+      <a [routerLink]="['/projects', project.id, 'folders']" 
+         routerLinkActive="active" 
+         class="nav-link"
+         (click)="onNavLinkClick()">
+        <i class="bi bi-folder"></i>
+        <span *ngIf="!sidebarCollapsed">Pastas</span>
+      </a>
+      
+      <a [routerLink]="['/projects', project.id, 'secrets']" 
+         routerLinkActive="active" 
+         class="nav-link"
+         (click)="onNavLinkClick()">
+        <i class="bi bi-shield-lock"></i>
+        <span *ngIf="!sidebarCollapsed">Segredos</span>
+      </a>
+      
+      <a [routerLink]="['/projects', project.id, 'edit']" 
+         routerLinkActive="active" 
+         class="nav-link"
+         (click)="onNavLinkClick()"
+         *ngIf="isAdmin">
+        <i class="bi bi-gear"></i>
+        <span *ngIf="!sidebarCollapsed">Configurações</span>
+      </a>
+    </div>
+
+    <div class="nav-section" *ngIf="isAdmin">
+      <div class="nav-section-title" *ngIf="!sidebarCollapsed">
+        <span>Sistema</span>
+      </div>
+      
+      <a [routerLink]="['/users']" 
+         routerLinkActive="active" 
+         class="nav-link"
+         (click)="onNavLinkClick()">
+        <i class="bi bi-people"></i>
+        <span *ngIf="!sidebarCollapsed">Usuários</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Footer da Sidebar -->
+  <div class="sidebar-footer">
+    <button class="logout-btn" (click)="logout()">
+      <i class="bi bi-box-arrow-right"></i>
+      <span *ngIf="!sidebarCollapsed">Sair</span>
+    </button>
+  </div>
+
+  <!-- Mensagem de erro -->
+  <div class="alert alert-danger" *ngIf="error && !sidebarCollapsed">
+    {{ error }}
+  </div>
+</div> 

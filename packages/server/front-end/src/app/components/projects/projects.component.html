@@ -1,0 +1,121 @@
+<div class="projects-container">
+  <!-- Barra de busca global -->
+  <div class="search-container mb-4">
+    <app-global-search></app-global-search>
+  </div>
+
+  <!-- Cabeçalho -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>Meus Projetos</h3>
+    <button class="btn btn-primary" 
+            (click)="showNewProjectForm = true" 
+            *ngIf="!showNewProjectForm && isAdmin">
+      <i class="bi bi-plus-circle"></i> Novo Projeto
+    </button>
+  </div>
+
+  <!-- Formulário de novo projeto -->
+  <div class="card mb-4" *ngIf="showNewProjectForm && isAdmin">
+    <div class="card-body">
+      <h5 class="card-title">Novo Projeto</h5>
+      <div class="mb-3">
+        <label for="projectName" class="form-label">Nome do Projeto</label>
+        <input type="text" 
+               class="form-control" 
+               id="projectName" 
+               [(ngModel)]="newProject.name"
+               placeholder="Digite o nome do projeto">
+      </div>
+      <div class="mb-3">
+        <label for="projectDescription" class="form-label">Descrição</label>
+        <textarea class="form-control" 
+                  id="projectDescription" 
+                  [(ngModel)]="newProject.description"
+                  rows="3"
+                  placeholder="Digite uma descrição para o projeto"></textarea>
+      </div>
+      <div class="d-flex justify-content-end gap-2">
+        <button class="btn btn-secondary" (click)="cancelNewProject()">Cancelar</button>
+        <button class="btn btn-primary" 
+                (click)="createProject()"
+                [disabled]="!isValidProject()">
+          Criar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mensagem de erro -->
+  <div class="alert alert-danger" *ngIf="error">
+    {{ error }}
+  </div>
+
+  <!-- Lista de projetos -->
+  <div class="row g-4" *ngIf="projects.length > 0">
+    <div class="col-md-6 col-lg-4" *ngFor="let project of projects">
+      <div class="card h-100 project-card" (click)="openProject(project.id)">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-folder2 text-primary me-2"></i>
+            <h5 class="card-title mb-0">{{ project.name }}</h5>
+          </div>
+          <p class="card-text text-muted" *ngIf="project.description">
+            {{ project.description }}
+          </p>
+        </div>
+        <div class="card-footer bg-transparent">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <small class="text-muted">
+              Criado em {{ project.createdAt | date:'dd/MM/yyyy' }}
+            </small>
+            <button class="btn btn-sm btn-outline-primary" 
+                    (click)="editProject(project.id); $event.stopPropagation()"
+                    *ngIf="isAdmin">
+              <i class="bi bi-pencil"></i>
+            </button>
+          </div>
+          <div class="d-flex gap-1">
+            <button class="btn btn-sm btn-outline-primary flex-fill" 
+                    (click)="openProject(project.id); $event.stopPropagation()"
+                    title="Ver pastas do projeto">
+              <i class="bi bi-folder me-1"></i>Pastas
+            </button>
+            <button class="btn btn-sm btn-outline-warning flex-fill" 
+                    (click)="openProjectSecrets(project.id); $event.stopPropagation()"
+                    title="Ver segredos de API">
+              <i class="bi bi-shield-lock me-1"></i>Segredos
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mensagem quando não há projetos - Para Admins -->
+  <div class="text-center py-5" *ngIf="projects.length === 0 && !showNewProjectForm && isAdmin">
+    <div class="mb-4">
+      <i class="bi bi-folder2" style="font-size: 4rem; color: #6c757d;"></i>
+    </div>
+    <h4 class="text-muted">Nenhum projeto encontrado</h4>
+    <p class="text-muted mb-4">Crie um projeto para começar a organizar suas configurações</p>
+    <button class="btn btn-primary btn-lg" (click)="showNewProjectForm = true">
+      <i class="bi bi-plus-circle"></i> Criar Novo Projeto
+    </button>
+  </div>
+
+  <!-- Mensagem quando não há projetos - Para Usuários Normais -->
+  <div class="text-center py-5" *ngIf="projects.length === 0 && !showNewProjectForm && !isAdmin">
+    <div class="mb-4">
+      <i class="bi bi-folder-x" style="font-size: 4rem; color: #6c757d;"></i>
+    </div>
+    <h4 class="text-muted">Nenhum projeto atribuído</h4>
+    <p class="text-muted mb-4">
+      Você ainda não possui projetos atribuídos.<br>
+      Entre em contato com um administrador para ter acesso aos projetos.
+    </p>
+    <div class="alert alert-info d-inline-block">
+      <i class="bi bi-info-circle"></i>
+      <strong> Dica: </strong> Apenas administradores podem criar e atribuir projetos aos usuários.
+    </div>
+  </div>
+</div> 

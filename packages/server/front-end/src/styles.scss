@@ -1,0 +1,219 @@
+/* You can add global styles to this file, and also import other style files */
+
+// Global responsive improvements
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Ajustes para sidebar layout
+.main-content {
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: #f8f9fa;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+
+  // Container para conteúdo das páginas
+  .page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+
+    @media (max-width: 768px) {
+      padding: 1rem;
+      border-radius: 8px;
+    }
+  }
+
+  // Headers das páginas
+  .page-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e9ecef;
+
+    h1, h2 {
+      margin: 0;
+      color: #212529;
+      font-weight: 600;
+    }
+
+    .page-subtitle {
+      color: #6c757d;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// Melhorias nos cards
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    border-radius: 12px 12px 0 0 !important;
+    font-weight: 600;
+  }
+}
+
+// Melhorias nos botões
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &.btn-primary {
+    background: linear-gradient(45deg, #0d6efd, #0056b3);
+    border: none;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+    }
+  }
+
+  &.btn-outline-primary {
+    border: 2px solid #0d6efd;
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+  }
+}
+
+// Melhorias nos modais
+.modal-content {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+
+  .modal-header {
+    border-bottom: 1px solid #e9ecef;
+    border-radius: 12px 12px 0 0;
+    background-color: #f8f9fa;
+
+    .modal-title {
+      font-weight: 600;
+      color: #212529;
+    }
+  }
+
+  .modal-footer {
+    border-top: 1px solid #e9ecef;
+    border-radius: 0 0 12px 12px;
+    background-color: #f8f9fa;
+  }
+}
+
+// Mobile-first responsive utilities
+@media (max-width: 480px) {
+  // Prevent horizontal scrolling on mobile
+  body {
+    overflow-x: hidden;
+  }
+  
+  // Better touch targets for mobile
+  .btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  // Form improvements for mobile
+  .form-control {
+    font-size: 16px !important; // Prevents zoom on iOS
+    border-radius: 8px;
+  }
+
+  .form-select {
+    font-size: 16px !important;
+    border-radius: 8px;
+  }
+  
+  // Card improvements for mobile
+  .card {
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+  
+  // Modal improvements for mobile
+  .modal-dialog {
+    margin: 0.5rem;
+    max-width: calc(100% - 1rem);
+  }
+}
+
+// Tablet responsive
+@media (max-width: 768px) and (min-width: 481px) {
+  .btn {
+    min-height: 40px;
+  }
+}
+
+// Better focus styles for accessibility
+.btn:focus,
+.form-control:focus,
+.form-select:focus {
+  outline: 2px solid #0d6efd;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+// Smooth transitions for better UX
+* {
+  transition: all 0.2s ease-in-out;
+}
+
+// Loading states
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+// Responsive text sizes
+@media (max-width: 480px) {
+  h1 { font-size: 1.75rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+  h4 { font-size: 1.1rem; }
+  h5 { font-size: 1rem; }
+  h6 { font-size: 0.9rem; }
+}
+
+// Better spacing for mobile
+@media (max-width: 480px) {
+  .container,
+  .container-fluid {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
+  .row {
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+  
+  .col,
+  [class*="col-"] {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}

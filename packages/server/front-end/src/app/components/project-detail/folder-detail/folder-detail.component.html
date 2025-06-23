@@ -1,0 +1,59 @@
+<div class="container-fluid mt-4">
+  <!-- Barra de busca global -->
+  <div class="search-container mb-4">
+    <app-global-search></app-global-search>
+  </div>
+
+  <!-- Cabeçalho -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <button class="btn btn-outline-secondary me-2" (click)="goBack()">
+      <i class="bi bi-arrow-left"></i>
+      <span class="btn-text">Voltar</span>
+    </button>
+    <h2>
+      <i class="bi bi-folder me-2 text-primary"></i>
+      {{ folderName }}
+    </h2>
+        <p class="text-muted mb-0" *ngIf="folderDescription">{{ folderDescription }}</p>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-info" (click)="navigateToFolderApiDocs()">
+        <i class="bi bi-code-slash"></i> API da Pasta
+      </button>
+      <button class="btn btn-primary" (click)="createNewKey()">
+        <i class="bi bi-plus-circle"></i> Nova Chave
+      </button>
+    </div>
+  </div>
+
+  <!-- Mensagem de erro -->
+  <div class="alert alert-danger" *ngIf="error">
+    {{ error }}
+  </div>
+
+  <!-- Lista de chaves -->
+  <div class="row g-4" *ngIf="keys.length > 0">
+    <div class="col-md-6" *ngFor="let key of keys">
+      <app-key-card 
+        [key]="key"
+        [project]="{ id: projectId!, name: '' }"
+        [folder]="{ id: folderId!, name: folderName || '' }"
+        [showLocation]="false"
+        [showActions]="true"
+        [clickable]="true">
+      </app-key-card>
+    </div>
+  </div>
+
+  <!-- Mensagem quando não há chaves -->
+  <div class="text-center py-5" *ngIf="keys.length === 0">
+    <div class="mb-4">
+      <i class="bi bi-key" style="font-size: 4rem; color: #6c757d;"></i>
+    </div>
+    <h4 class="text-muted">Nenhuma chave encontrada</h4>
+    <p class="text-muted mb-4">Crie uma chave para começar a configurar sua pasta</p>
+    <button class="btn btn-primary btn-lg" (click)="createNewKey()">
+      <i class="bi bi-plus-circle"></i>
+      <span class="btn-text">Criar Nova Chave</span>
+    </button>
+  </div>
+</div> 

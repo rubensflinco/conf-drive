@@ -1,0 +1,13 @@
+<div *ngIf="loadingService.isLoading$ | async" class="modal-backdrop show" style="opacity: 0.5;">
+</div>
+<div *ngIf="loadingService.isLoading$ | async" class="modal d-block" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-transparent border-0">
+            <div class="modal-body text-center">
+                <div class="spinner-border text-light" role="status" style="width: 3rem; height: 3rem;">
+                    <span class="visually-hidden">Carregando...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
