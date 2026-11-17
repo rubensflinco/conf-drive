@@ -1,6 +1,11 @@
 const { SDK_VERSION, validateConfig } = require('../dist');
+const packageMetadata = require('../package.json');
 
 describe('SDK public API', () => {
+  test('uses the scoped npm package name', () => {
+    expect(packageMetadata.name).toBe('@conf-drive/sdk');
+  });
+
   test('exports its package version', () => {
     expect(SDK_VERSION).toBe('1.0.0');
   });

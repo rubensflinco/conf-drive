@@ -1,83 +1,67 @@
 # ConfDrive
 
+[English](README.md) | [Português (Brasil)](README.pt-BR.md)
+
 [![CI and release](https://github.com/rubensflinco/conf-drive/actions/workflows/sdk-release.yml/badge.svg)](https://github.com/rubensflinco/conf-drive/actions/workflows/sdk-release.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-ConfDrive is an open-source configuration management project for Node.js applications. It provides an API and a TypeScript SDK for organizing application settings by project and environment, with local caching and cache invalidation support.
+ConfDrive is an open-source project for managing application configuration in one place. A project can group settings into folders (for example, environments), and your application can read those values through an API and a TypeScript SDK with local caching and cache refresh support.
 
-The monorepo contains:
+**Is it ready to use?** The SDK source and server are available here, but `@conf-drive/sdk` has **not yet been published to npm** and this repository does not provide a hosted API. You need to run or deploy the ConfDrive server yourself before an application can connect.
 
-- **`@conf-drive/sdk`** — TypeScript client for the ConfDrive API. The SDK is the only package currently configured for public npm releases.
-- **`@conf-drive/server`** — Express API and Angular management interface. Deployment depends on choosing and configuring a hosting platform.
-- **`@conf-drive/docs`** — a Docusaurus workspace placeholder. The [GitHub Wiki](https://github.com/rubensflinco/conf-drive/wiki) is published; [`wiki/`](wiki/) contains source copies of its guides.
+## Who it is for
 
-## Install the SDK after its first release
+Use ConfDrive if you want to manage settings for your own projects and read them from a Node.js/TypeScript application, instead of keeping every setting in application code. The repository includes an Express API, an Angular management interface, and the SDK. It does not currently offer a hosted service.
 
-The package is not published to npm yet. After the first successful release, install it with:
+## SDK availability
 
-```sh
-npm install @conf-drive/sdk
-```
+- npm package: [`@conf-drive/sdk`](https://www.npmjs.com/package/@conf-drive/sdk) — **not published yet**. `npm install @conf-drive/sdk` will not work until the first release.
+- The SDK requires Node.js 18 or newer when used in an application.
+- Only `@conf-drive/sdk` is configured for public npm releases; the server and root monorepo are not npm packages.
+
+## How to get started
+
+1. Prepare a ConfDrive API and management interface. You can run the backend and frontend from this repository, or deploy them on infrastructure you choose.
+2. Create a project, a folder, configuration keys, and an API secret using the running service. There is no shared production API URL in this repository.
+3. After the SDK is published, install it with `npm install @conf-drive/sdk`. Until then, the SDK can be built and tested from this checkout; see [Development and releases](wiki/Development-and-Releases.md).
+4. Configure the SDK in trusted server-side code:
 
 ```ts
 import { confDrive } from '@conf-drive/sdk';
 
 confDrive.setup({
-  apiUrl: 'https://your-confdrive-api.example.com/api',
+  apiUrl: process.env.CONFDRIVE_API_URL!, // API base URL, including /api
   apiSecret: process.env.CONFDRIVE_API_SECRET!,
-  defaultValues: { theme: 'light' }
+  defaultValues: { featureEnabled: false }
 });
 
 const settings = await confDrive.get('your-project-id');
 ```
 
-Keep API secrets on trusted server-side code. Do not embed privileged credentials in a browser bundle or commit credentials to source control. See the [SDK guide](wiki/SDK-Quickstart.md) for configuration, caching, events, and examples.
+`confDrive.get()` can return cached or default values immediately while refreshing from the API in the background. Listen for `cache:update` if your application needs to react to refreshed settings. See the [SDK quickstart](wiki/SDK-Quickstart.md) for cache options and more methods.
 
-## Development
+## Keep credentials private
 
-Requirements: Node.js 22 or newer and npm.
+The SDK sends `apiSecret` in the `X-API-Secret` request header. Do not put a privileged secret in a public browser bundle or commit it to source control. Use the SDK in trusted server-side code. A client-side credential is appropriate only if it is intentionally scoped and safe to expose.
+
+## Run this repository
+
+For repository development, use Node.js 22 or newer and npm:
 
 ```sh
 npm install
 npm test --workspace=@conf-drive/sdk
 ```
 
-The server is split into an Express backend and an Angular frontend. Their current package scripts can be run from their respective directories:
+The backend and Angular frontend are separate applications under `packages/server`. The backend currently persists data in local JSON files. Choose and configure suitable hosting and persistent storage before deploying it; no provider or production deployment is configured by this project.
 
-```sh
-cd packages/server/back-end
-npm install
-npm start
-```
+## Project links
 
-```sh
-cd packages/server/front-end
-npm install
-npm start
-```
-
-The backend uses local JSON files by default. Choose and configure a production hosting and persistence platform before deploying it; the repository does not assume a cloud provider.
-
-## Releases
-
-SDK releases are created automatically when changes are merged into `main`. Use [Conventional Commits](https://www.conventionalcommits.org/) so the release workflow can select the semantic version bump:
-
-- `fix(sdk): ...` — patch release
-- `feat(sdk): ...` — minor release
-- `feat(sdk)!: ...` or a `BREAKING CHANGE:` footer — major release
-
-Use the `sdk` scope for SDK changes; `server` and `docs` scopes do not publish the SDK. Documentation, build, and other non-release commits do not publish a new package version. When using squash merges, make the pull request title a Conventional Commit. See the [contribution and release guide](wiki/Development-and-Releases.md).
-
-## Documentation
-
-- [GitHub Wiki](https://github.com/rubensflinco/conf-drive/wiki) — published guides; [`wiki/`](wiki/) contains their source copies
-- [SDK package README](packages/sdk/README.md)
-- [Wiki source pages](wiki/)
-- [AI-readable project summary](llms.txt)
-
-## Search terms
-
-ConfDrive, configuration management, environment configuration, Node.js configuration API, TypeScript configuration SDK, remote application settings, cached configuration, npm SDK.
+- [SDK package on npm](https://www.npmjs.com/package/@conf-drive/sdk) (not published yet)
+- [SDK guide](packages/sdk/README.md)
+- [GitHub Wiki](https://github.com/rubensflinco/conf-drive/wiki) and [Wiki source pages](wiki/)
+- [Issues and support](https://github.com/rubensflinco/conf-drive/issues)
+- [Contributing and releases](wiki/Development-and-Releases.md)
 
 ## License
 
