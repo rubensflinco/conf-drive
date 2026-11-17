@@ -1,0 +1,33 @@
+# ConfDrive
+
+> API de gerenciamento de configurações e SDK TypeScript de código aberto para quem desenvolve aplicações.
+
+O ConfDrive permite que uma aplicação consulte configurações de projetos e pastas em uma API hospedada por você. O SDK oferece cache local e validação do cache. O repositório contém um backend Express e uma interface de gerenciamento Angular; o projeto não fornece API de produção nem provedor de hospedagem.
+
+## Status atual
+
+- O pacote público no npm é `@conf-drive/sdk`, mas ainda não foi publicado. Consulte https://www.npmjs.com/package/@conf-drive/sdk.
+- Após a publicação, instale o SDK com `npm install @conf-drive/sdk`. A aplicação que o utilizar requer Node.js 18 ou superior.
+- O SDK requer uma API do ConfDrive em execução, configurações de projeto ou pasta e um segredo de API. Atualmente, o backend persiste os dados em arquivos JSON locais.
+- O SDK envia o segredo de API no cabeçalho `X-API-Secret` da requisição. Não exponha credenciais privilegiadas em um bundle público de navegador nem envie credenciais para o controle de versão.
+- Somente o SDK está configurado para releases públicos no npm; o servidor e o monorepo raiz não são pacotes npm.
+
+## Documentação
+
+- [README em Português](README.pt-BR.md)
+- [README em inglês](README.md)
+- [Guia do SDK em Português](packages/sdk/README.pt-BR.md)
+- [SDK guide in English](packages/sdk/README.md)
+- [Wiki do GitHub](https://github.com/rubensflinco/conf-drive/wiki)
+- [Arquivos-fonte da Wiki](wiki/)
+- [Problemas e suporte](https://github.com/rubensflinco/conf-drive/issues)
+
+## Recursos confirmados do SDK
+
+- Consultar chaves de projeto e de pasta na API do ConfDrive.
+- Armazenar configurações em cache local e validar ou atualizar os dados em cache.
+- Acompanhar eventos do SDK, como `cache:update`.
+
+## Desenvolvimento do repositório
+
+O desenvolvimento do repositório usa Node.js 22 ou superior e npm. Execute `npm test --workspace=@conf-drive/sdk` na raiz do repositório para compilar e testar o SDK.

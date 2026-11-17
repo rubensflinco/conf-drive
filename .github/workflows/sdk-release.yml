@@ -74,5 +74,6 @@ jobs:
       - name: Publish semantic release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NODE_PATH: ${{ github.workspace }}/.github/release/node_modules
         run: npm exec --prefix .github/release -- semantic-release

@@ -1,18 +1,28 @@
 # SDK quickstart
 
-The SDK has not been published to npm yet. After its first successful release, install it with:
+[English](https://github.com/rubensflinco/conf-drive/wiki/SDK-Quickstart) | [Português (Brasil)](https://github.com/rubensflinco/conf-drive/wiki/SDK-Quickstart-pt-BR)
+
+This guide is for application developers who already have a ConfDrive API available. ConfDrive does not host an API, and `@conf-drive/sdk` has **not yet been published to npm**. Check the [npm package page](https://www.npmjs.com/package/@conf-drive/sdk); the install command below will work after the first successful release.
+
+## Requirements
+
+- Node.js 18 or newer for the application using the SDK.
+- A running ConfDrive API, with a project or folder, configuration keys, and an API secret created through the management interface.
+- Keep the API secret on the server. Do not bundle a privileged secret into a browser application.
+
+## Install after publication
 
 ```sh
 npm install @conf-drive/sdk
 ```
 
-Configure the singleton and fetch settings:
+Set the API base URL (including `/api`) and API secret as environment variables in the trusted server process. Then configure the SDK:
 
 ```ts
 import { confDrive } from '@conf-drive/sdk';
 
 confDrive.setup({
-  apiUrl: 'https://your-confdrive-api.example.com/api',
+  apiUrl: process.env.CONFDRIVE_API_URL!,
   apiSecret: process.env.CONFDRIVE_API_SECRET!,
   defaultValues: {
     featureEnabled: false
@@ -26,25 +36,23 @@ const folderSettings = await confDrive.getFolder('folder-id');
 const featureEnabled = await confDrive.getKey('project-id', 'featureEnabled');
 ```
 
-`defaultValues` is required. `cacheTTL` and `validationInterval` are optional; the SDK defaults them to five minutes and 30 seconds. The SDK also exports `ConfDriveClient` for callers that need separate client instances.
-
-## Events
-
-Subscribe to cache updates and remove the listener when it is no longer needed:
+`defaultValues` is required. The singleton cache defaults to a five-minute TTL and cache validation defaults to 30 seconds. `confDrive.get()` may return cached or default values immediately and refresh them in the background. Listen for `cache:update` if your application needs to react to refreshed settings:
 
 ```ts
-const onUpdate = (event: { data: Record<string, unknown> }) => {
-  console.log('Configuration refreshed', event.data);
-};
-
 const client = confDrive.client();
-client.on('cache:update', onUpdate);
-// Later, when finished:
-client.off('cache:update', onUpdate);
+client.on('cache:update', event => {
+  console.log('Settings updated', event.data);
+});
 ```
 
-## Credential safety
+Use `ConfDriveClient` for independent client instances or explicit cache settings. See the [SDK README](https://github.com/rubensflinco/conf-drive/blob/main/packages/sdk/README.md) for a complete example.
 
-The SDK sends `apiSecret` as an API request header. Do not expose a privileged secret in a public browser bundle. Use the SDK in trusted server-side code or use an appropriately scoped credential for a client application.
+## Run the API yourself
 
-See the package [README](https://github.com/rubensflinco/conf-drive/blob/main/packages/sdk/README.md) for additional methods and types.
+The backend and Angular management interface are in `packages/server`. The server currently uses local JSON files for persistence. Select and configure your own hosting and persistent storage before production use; this repository does not configure a hosting provider or production API URL.
+
+## More help
+
+- [Project home](Home)
+- [Architecture](Architecture)
+- [Report an issue](https://github.com/rubensflinco/conf-drive/issues)
