@@ -1,335 +1,99 @@
 # ConfDrive SDK
 
-SDK TypeScript para integração com a API do ConfDrive - Sistema de gerenciamento de configurações por ambiente.
+`@conf-drive/sdk` is a TypeScript client for reading project and folder configuration from the ConfDrive API. It includes local caching, cache invalidation, typed events, and a singleton API for straightforward integrations.
 
-## 🚀 **Nova API Ultra Simples com Validação Automática de Cache** 
+## Install after the first npm release
 
-### Configuração (apenas uma vez)
-```typescript
-import { confDrive } from '@conf-drive/sdk';
+`@conf-drive/sdk` has not been published yet. After its first successful release, install it with:
 
-confDrive.setup(
-  'https://api.confDrive.com/api',
-  'sua-api-secret',
-  defaultValues,  // valores padrão (obrigatório)
-  5 * 60 * 1000,  // cache TTL: 5 minutos (opcional)
-  30 * 1000       // validação remota: 30 segundos (opcional)
-);
-```
-
-### Uso (uma única linha!)
-```typescript
-// Obter todas as configurações - SEMPRE instantâneo!
-const config = await confDrive.get('seu-project-id');
-
-// Pasta específica
-const folderConfig = await confDrive.getFolder('folder-id');
-
-// Chave específica
-const dbUrl = await confDrive.getKey('project-id', 'DATABASE_URL');
-```
-
-### 🎯 **NOVO: Atualizações Automáticas**
-```typescript
-// Escutar atualizações automáticas quando cache é invalidado remotamente
-confDrive.on('cache:update', (data) => {
-  console.log('Configuração atualizada automaticamente!', data);
-  // Sua UI será atualizada automaticamente!
-});
-
-confDrive.on('cache:remote-invalidated', (data) => {
-  console.log('Cache invalidado remotamente:', data.type, data.projectId);
-});
-```
-
-**É isso! Simples assim! 🎉**
-
----
-
-## ✨ Funcionalidades
-
-- **🚀 API Ultra Simples**: Configure uma vez, use em qualquer lugar com uma linha
-- **⚡ Cache Inteligente**: Cache automático com IndexedDB, atualização em background  
-- **🔄 Validação Automática**: Detecta invalidações remotas e refaz requests automaticamente
-- **📡 Atualizações em Tempo Real**: Eventos para reagir a mudanças de configuração
-- **🛡️ Fallback Automático**: Sempre retorna dados (API → Cache → Defaults)
-- **🔧 Framework Agnóstico**: Funciona com React, Angular, Vue.js, Node.js, etc.
-- **📊 Monitoramento**: Eventos para cache hits, API calls, erros, invalidações
-- **🌍 Multi-ambiente**: Desenvolvimento, Teste, Produção
-- **💾 Persistente**: Cache offline com IndexedDB
-- **🐛 Debug Fácil**: Logs detalhados e estatísticas
-
-## 📦 Instalação
-
-```bash
+```sh
 npm install @conf-drive/sdk
 ```
 
-## 🎯 Exemplos Rápidos
+## Configure and read settings
 
-### React com Atualizações Automáticas
-```tsx
+```ts
 import { confDrive } from '@conf-drive/sdk';
 
-function App() {
-  const [config, setConfig] = useState({});
-
-  useEffect(() => {
-    confDrive.setup('https://api.confDrive.com/api', 'secret', defaults);
-    
-    // Carregar configuração inicial
-    confDrive.get('project-123').then(setConfig);
-    
-    // Escutar atualizações automáticas
-    const handleUpdate = (data) => setConfig(data.data);
-    confDrive.on('cache:update', handleUpdate);
-    
-    return () => confDrive.off('cache:update', handleUpdate);
-  }, []);
-
-  return <h1>{config.titulo}</h1>; // Atualiza automaticamente!
-}
-```
-
-### Angular com Service
-```typescript
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { confDrive } from '@conf-drive/sdk';
-
-@Injectable()
-export class ConfigService {
-  private configSubject = new BehaviorSubject(null);
-  config$ = this.configSubject.asObservable();
-
-  constructor() {
-    confDrive.setup('https://api.confDrive.com/api', 'secret', defaults);
-    
-    // Atualizações automáticas
-    confDrive.on('cache:update', (data) => {
-      this.configSubject.next(data.data);
-    });
-  }
-
-  async loadConfig(projectId: string) {
-    const config = await confDrive.get(projectId);
-    this.configSubject.next(config);
-  }
-}
-```
-
-### Node.js
-```javascript
-const { confDrive } = require('@conf-drive/sdk');
-
-confDrive.setup('https://api.confDrive.com/api', 'secret', defaults);
-
-app.get('/api/config', async (req, res) => {
-  const config = await confDrive.get('project-123');
-  res.json(config);
-});
-```
-
-## 🔄 Como Funciona a Validação Automática
-
-O SDK agora verifica automaticamente se o cache foi invalidado remotamente:
-
-1. **Setup Inicial**: Configure TTL do cache (ex: 5 min) e intervalo de validação (ex: 30s)
-2. **Cache Inteligente**: Dados são servidos instantaneamente do cache
-3. **Validação em Background**: A cada 30s, verifica se cache foi invalidado remotamente
-4. **Auto-Refresh**: Se detectar invalidação, refaz requests automaticamente
-5. **Eventos**: Sua aplicação é notificada e pode reagir às mudanças
-
-```typescript
-// Configuração otimizada
-confDrive.setup(
-  apiUrl, 
-  apiSecret, 
-  defaults,
-  5 * 60 * 1000,  // Cache: 5 minutos (boa performance)
-  30 * 1000       // Validação: 30 segundos (detecção rápida)
-);
-
-// Sua app sempre tem dados atualizados automaticamente!
-```
-
-## 📚 Documentação Completa
-
-### API Simplificada (Recomendada)
-
-#### `confDrive.setup(apiUrl, apiSecret, defaultValues, cacheTTL?, validationInterval?)`
-Configura o SDK globalmente com validação automática.
-
-```typescript
-confDrive.setup(
-  'https://api.confDrive.com/api',
-  'sua-api-secret',
-  {
-    appName: 'Minha App',
+confDrive.setup({
+  apiUrl: 'https://your-confdrive-api.example.com/api',
+  apiSecret: process.env.CONFDRIVE_API_SECRET!,
+  defaultValues: {
     theme: 'light',
-    features: { darkMode: false }
+    featureEnabled: false
   },
-  5 * 60 * 1000,  // Cache TTL: 5 minutos
-  30 * 1000       // Validação: 30 segundos  
-);
-```
-
-#### `confDrive.get(projectId, forceRefresh?)`
-Obtém todas as configurações de um projeto.
-
-```typescript
-const config = await confDrive.get('project-123');
-const fresh = await confDrive.get('project-123', true); // forçar refresh
-```
-
-#### `confDrive.getFolder(folderId, forceRefresh?)`
-Obtém configurações de uma pasta específica.
-
-```typescript
-const folderConfig = await confDrive.getFolder('folder-456');
-```
-
-#### `confDrive.getKey(projectId, key, forceRefresh?)`
-Obtém uma chave específica.
-
-```typescript
-const dbUrl = await confDrive.getKey('project-123', 'DATABASE_URL');
-```
-
-#### Controle de Validação
-```typescript
-// Controlar validação automática
-confDrive.startValidation();  // Iniciar (já inicia automaticamente)
-confDrive.stopValidation();   // Parar
-const stats = confDrive.getValidationStats(); // Estatísticas
-```
-
-#### Outras funções úteis
-```typescript
-// Cache
-await confDrive.clearCache();
-await confDrive.invalidateProject('project-123');
-const stats = await confDrive.getCacheStats();
-
-// Eventos de validação
-confDrive.on('cache:remote-invalidated', (data) => {
-  console.log('Cache invalidado:', data.type, data.projectId);
+  cacheTTL: 5 * 60 * 1000,
+  validationInterval: 30 * 1000
 });
 
-confDrive.on('cache:auto-refresh', (data) => {
-  console.log(`${data.requests.length} requests refeitas automaticamente`);
-});
-
-confDrive.on('validation:started', (data) => {
-  console.log('Validação iniciada:', data.interval);
-});
-
-// Eventos de cache
-confDrive.on('cache:hit', (data) => console.log('Cache hit:', data.key));
-confDrive.on('cache:update', (data) => console.log('Cache atualizado:', data));
-confDrive.on('api:request', (data) => console.log('API call:', data.url));
-
-// Status
-const isReady = confDrive.isConfigured();
-const client = confDrive.client(); // Acesso ao cliente avançado
+const projectSettings = await confDrive.get('project-id');
+const folderSettings = await confDrive.getFolder('folder-id');
+const theme = await confDrive.getKey('project-id', 'theme');
 ```
 
-### API Avançada (Para casos complexos)
+`defaultValues` is required. `cacheTTL` defaults to five minutes and `validationInterval` defaults to 30 seconds. Set `cacheTTL` to `0` to disable the local cache lifetime.
 
-Se precisar de mais controle sobre a validação:
+## Cache events
 
-```typescript
+```ts
+confDrive.on('cache:update', (event: { data: Record<string, unknown> }) => {
+  console.log('Settings updated', event.data);
+});
+
+confDrive.on('cache:remote-invalidated', event => {
+  console.log('Remote cache invalidation', event.type, event.projectId);
+});
+```
+
+To unsubscribe, use the underlying client:
+
+```ts
+const client = confDrive.client();
+const onUpdate = (event: { data: Record<string, unknown> }) => {
+  console.log(event.data);
+};
+
+client.on('cache:update', onUpdate);
+// Later:
+client.off('cache:update', onUpdate);
+```
+
+## Advanced client
+
+Create an independent client when you need more than one configuration:
+
+```ts
 import { ConfDriveClient } from '@conf-drive/sdk';
 
 const client = new ConfDriveClient({
-  apiUrl: 'https://api.confDrive.com/api',
-  apiSecret: 'sua-api-secret',
-  defaultValues: { /* ... */ },
-  cache: { 
-    enabled: true, 
-    ttl: 300000 
+  apiUrl: 'https://your-confdrive-api.example.com/api',
+  apiSecret: process.env.CONFDRIVE_API_SECRET!,
+  defaultValues: {
+    timestamp: Date.now(),
+    type: 'folder',
+    data: { theme: 'light' }
+  },
+  cache: {
+    enabled: true,
+    ttl: 5 * 60 * 1000
   },
   cacheValidation: {
     enabled: true,
-    interval: 15000,    // 15 segundos
-    autoRefresh: true   // refazer requests automaticamente
+    interval: 30 * 1000,
+    autoRefresh: true
   }
 });
 
-// Controle manual
-client.startCacheValidation();
-client.stopCacheValidation();
-const stats = client.getCacheValidationStats();
-
-// Eventos específicos
-client.on('cache:remote-invalidated', handleInvalidation);
-client.on('cache:auto-refresh', handleAutoRefresh);
+const settings = await client.getProjectKeys('project-id');
 ```
 
-## 🔄 Migração da API Antiga
+## Credential safety
 
-### Antes (Complexo)
-```typescript
-import { ConfDriveClient, ConfDriveConfig } from '@conf-drive/sdk';
+The SDK sends `apiSecret` as an API request header. Do not expose a privileged secret in a public browser bundle or commit credentials. Use the SDK in trusted server-side code, or use a credential intentionally scoped for client-side use.
 
-const config: ConfDriveConfig = { /* ... */ };
-const client = new ConfDriveClient(config);
+## Documentation and support
 
-const projectKeys = await client.getProjectKeys('project-123');
-const envConfig = projectKeys['Desenvolvimento'] || {};
-const titulo = envConfig['titulo'] || 'Padrão';
-
-// Sem validação automática - cache pode ficar desatualizado
-```
-
-### Depois (Simples + Automático)
-```typescript
-import { confDrive } from '@conf-drive/sdk';
-
-confDrive.setup(apiUrl, apiSecret, defaults, cacheTTL, validationInterval);
-const config = await confDrive.get('project-123');
-const titulo = config.titulo; // Sempre funciona + sempre atualizado!
-
-// Com validação automática - cache sempre sincronizado
-```
-
-## 🎯 Casos de Uso
-
-### 1. Aplicação Multi-tenant
-```typescript
-confDrive.setup(apiUrl, apiSecret, defaults);
-
-// Cada tenant automaticamente tem cache gerenciado
-const tenantA = await confDrive.get('tenant-a-project');
-const tenantB = await confDrive.get('tenant-b-project');
-
-// Sistema invalida cache apenas do tenant correto
-```
-
-### 2. Configuração por Ambiente
-```typescript
-// Diferentes pastas para ambientes
-const prodConfig = await confDrive.getFolder('pasta-producao');
-const devConfig = await confDrive.getFolder('pasta-desenvolvimento');
-
-// Invalidação granular por pasta
-```
-
-### 3. Monitoramento de Configurações
-```typescript
-confDrive.on('cache:remote-invalidated', (data) => {
-  // Enviar para analytics
-  analytics.track('config_changed', {
-    projectId: data.projectId,
-    type: data.type
-  });
-  
-  // Notificar usuário
-  showNotification('Configuração atualizada!');
-});
-```
-
-## 🛠️ Desenvolvimento
-
-### Estrutura do Projeto
-```
+- [Project Wiki](https://github.com/rubensflinco/conf-drive/wiki)
+- [Architecture source](https://github.com/rubensflinco/conf-drive/blob/main/wiki/Architecture.md)
+- [SDK quickstart source](https://github.com/rubensflinco/conf-drive/blob/main/wiki/SDK-Quickstart.md)
+- [Report an issue](https://github.com/rubensflinco/conf-drive/issues)

@@ -1,11 +1,45 @@
 {
   "name": "@conf-drive/sdk",
   "version": "1.0.0",
+  "description": "TypeScript SDK for reading and caching project configuration from the ConfDrive API.",
+  "keywords": [
+    "conf-drive",
+    "configuration",
+    "configuration-management",
+    "nodejs",
+    "typescript",
+    "environment-config",
+    "sdk"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rubensflinco/conf-drive.git",
+    "directory": "packages/sdk"
+  },
+  "homepage": "https://github.com/rubensflinco/conf-drive/tree/main/packages/sdk#readme",
+  "bugs": {
+    "url": "https://github.com/rubensflinco/conf-drive/issues"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
+    "prebuild": "node scripts/sync-version.cjs",
     "build": "tsc",
+    "pretest": "npm run build",
     "test": "jest",
+    "prepack": "npm run build",
     "lint": "eslint src --ext .ts"
   },
   "dependencies": {

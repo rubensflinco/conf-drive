@@ -1,0 +1,14 @@
+{
+  "name": "conf-drive-release-tools",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Pinned tooling for the ConfDrive SDK release workflow.",
+  "devDependencies": {
+    "@semantic-release/commit-analyzer": "13.0.1",
+    "@semantic-release/github": "12.0.11",
+    "@semantic-release/npm": "13.2.0",
+    "@semantic-release/release-notes-generator": "14.1.1",
+    "conventional-changelog-conventionalcommits": "^10.4.1",
+    "semantic-release": "25.0.9"
+  }
+}

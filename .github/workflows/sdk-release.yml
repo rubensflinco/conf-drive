@@ -1,0 +1,78 @@
+name: SDK CI and release
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  sdk:
+    name: Build and test SDK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            .github/release/package-lock.json
+
+      - name: Install SDK dependencies
+        run: npm ci --workspace=@conf-drive/sdk --include-workspace-root
+
+      - name: Build and test SDK
+        run: npm test --workspace=@conf-drive/sdk
+
+  release:
+    name: Publish SDK release
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: sdk
+    concurrency:
+      group: sdk-release-main
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - name: Check out repository and history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            .github/release/package-lock.json
+
+      - name: Install npm with trusted publishing support
+        run: npm install --global npm@11.5.1
+
+      - name: Install SDK dependencies
+        run: npm ci --workspace=@conf-drive/sdk --include-workspace-root
+
+      - name: Install release tooling
+        run: npm ci --prefix .github/release
+
+      - name: Publish semantic release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_PATH: ${{ github.workspace }}/.github/release/node_modules
+        run: npm exec --prefix .github/release -- semantic-release

@@ -60,10 +60,7 @@ export type {
   ConfDriveEvents
 } from './interfaces';
 
-/**
- * Versão do SDK
- */
-export const SDK_VERSION = '1.0.0';
+export { SDK_VERSION } from './version';
 
 /**
  * Função de conveniência para criar um cliente ConfDrive

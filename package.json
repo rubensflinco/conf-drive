@@ -2,6 +2,7 @@
   "name": "conf-drive",
   "version": "1.0.0",
   "private": true,
+  "description": "Open-source configuration management API and TypeScript SDK for Node.js applications.",
   "workspaces": [
     "packages/*"
   ],
@@ -10,6 +11,21 @@
     "test": "npm run test --workspaces",
     "lint": "npm run lint --workspaces"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rubensflinco/conf-drive.git"
+  },
+  "homepage": "https://github.com/rubensflinco/conf-drive#readme",
+  "bugs": {
+    "url": "https://github.com/rubensflinco/conf-drive/issues"
+  },
+  "keywords": [
+    "configuration-management",
+    "nodejs",
+    "typescript",
+    "configuration-api",
+    "environment-config"
+  ],
   "author": "",
   "license": "MIT"
-} 
+}
