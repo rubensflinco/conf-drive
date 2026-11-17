@@ -1,0 +1,26 @@
+# ConfDrive
+
+> Open-source configuration management API and TypeScript SDK for Node.js applications.
+
+ConfDrive is a GitHub-hosted monorepo. The planned npm package is `@conf-drive/sdk`, which has not been published yet. The repository also contains an Express API and an Angular management interface. The server is not deployed automatically and currently persists data in local JSON files.
+
+## Project resources
+
+- [Repository overview](https://github.com/rubensflinco/conf-drive)
+- [Project README](https://github.com/rubensflinco/conf-drive/blob/main/README.md)
+- [Wiki source pages](https://github.com/rubensflinco/conf-drive/tree/main/wiki)
+- [SDK's planned npm package listing](https://www.npmjs.com/package/@conf-drive/sdk) (available after its first release)
+- [SDK source and package guide](https://github.com/rubensflinco/conf-drive/tree/main/packages/sdk)
+- [Issue tracker](https://github.com/rubensflinco/conf-drive/issues)
+
+## Confirmed capabilities
+
+- Read project and folder settings through the SDK.
+- Cache settings locally and respond to cache updates and invalidation events.
+- Build and publish the SDK as a public npm package after Conventional Commit changes are merged to `main`.
+
+## Important boundaries
+
+- Only `@conf-drive/sdk` is configured for npm publishing.
+- No production hosting provider or backend deployment is configured.
+- The SDK sends its API secret in request headers; privileged secrets must not be exposed in a public browser bundle.

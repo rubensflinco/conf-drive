@@ -1,0 +1,33 @@
+{
+  "branches": ["main"],
+  "tagFormat": "sdk-v${version}",
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "conventionalcommits",
+        "releaseRules": [
+          { "breaking": true, "scope": "sdk", "release": "major" },
+          { "type": "feat", "scope": "sdk", "release": "minor" },
+          { "type": "fix", "scope": "sdk", "release": "patch" },
+          { "type": "perf", "scope": "sdk", "release": "patch" },
+          { "type": "*", "scope": "!sdk", "release": false },
+          { "type": "*", "scope": null, "release": false }
+        ]
+      }
+    ],
+    [
+      "@semantic-release/release-notes-generator",
+      {
+        "preset": "conventionalcommits"
+      }
+    ],
+    [
+      "@semantic-release/npm",
+      {
+        "pkgRoot": "packages/sdk"
+      }
+    ],
+    "@semantic-release/github"
+  ]
+}
